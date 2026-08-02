@@ -1,0 +1,764 @@
+[
+  {
+    "slug": "push_button",
+    "object": "push_button",
+    "path": "assets/models/push_button.glb",
+    "tris": 276,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Large push button. Latches once when struck; the standard finish trigger.",
+    "size": [
+      0.29,
+      0.122,
+      0.29
+    ],
+    "bytes": 5316
+  },
+  {
+    "slug": "pressure_plate",
+    "object": "pressure_plate",
+    "path": "assets/models/pressure_plate.glb",
+    "tris": 88,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Wide pressure plate. Triggers on any weight landing on it.",
+    "size": [
+      0.4,
+      0.044,
+      0.4
+    ],
+    "bytes": 2656
+  },
+  {
+    "slug": "lever",
+    "object": "lever",
+    "path": "assets/models/lever.glb",
+    "tris": 204,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Lever. Knocked over to trigger a chain.",
+    "size": [
+      0.2747,
+      0.3027,
+      0.0723
+    ],
+    "bytes": 4528
+  },
+  {
+    "slug": "rotating_handle",
+    "object": "rotating_handle",
+    "path": "assets/models/rotating_handle.glb",
+    "tris": 536,
+    "materials": 3,
+    "collider": "cylinder",
+    "purpose": "Valve-style handle. Spun by a passing object to open a gate.",
+    "size": [
+      0.1972,
+      0.27,
+      0.27
+    ],
+    "bytes": 8560
+  },
+  {
+    "slug": "pull_switch",
+    "object": "pull_switch",
+    "path": "assets/models/pull_switch.glb",
+    "tris": 228,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Hanging pull switch. Triggered by something swinging into the ball.",
+    "size": [
+      0.14,
+      0.3276,
+      0.14
+    ],
+    "bytes": 4824
+  },
+  {
+    "slug": "spring_launcher",
+    "object": "spring_launcher",
+    "path": "assets/models/spring_launcher.glb",
+    "tris": 1256,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Coiled spring pad. Launches whatever lands on it.",
+    "size": [
+      0.23,
+      0.145,
+      0.23
+    ],
+    "bytes": 17156
+  },
+  {
+    "slug": "fuse_starter",
+    "object": "fuse_starter",
+    "path": "assets/models/fuse_starter.glb",
+    "tris": 300,
+    "materials": 3,
+    "collider": "cylinder",
+    "purpose": "Fuse starter. Tappable ignition point for a timed chain.",
+    "size": [
+      0.1427,
+      0.2419,
+      0.1469
+    ],
+    "bytes": 5692
+  },
+  {
+    "slug": "launch_button",
+    "object": "launch_button",
+    "path": "assets/models/launch_button.glb",
+    "tris": 244,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Green launch button. Primary tappable starter in later worlds.",
+    "size": [
+      0.34,
+      0.1811,
+      0.34
+    ],
+    "bytes": 4476
+  },
+  {
+    "slug": "fan_switch",
+    "object": "fan_switch",
+    "path": "assets/models/fan_switch.glb",
+    "tris": 88,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Switch that turns a fan on.",
+    "size": [
+      0.1735,
+      0.17,
+      0.1
+    ],
+    "bytes": 2568
+  },
+  {
+    "slug": "magnetic_trigger",
+    "object": "magnetic_trigger",
+    "path": "assets/models/magnetic_trigger.glb",
+    "tris": 88,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Switch that energises a magnet.",
+    "size": [
+      0.1735,
+      0.17,
+      0.1
+    ],
+    "bytes": 2580
+  },
+  {
+    "slug": "ramp_short",
+    "object": "ramp_short",
+    "path": "assets/models/ramp_short.glb",
+    "tris": 132,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Short ramp. Gets a roller moving.",
+    "size": [
+      0.6501,
+      0.3186,
+      0.34
+    ],
+    "bytes": 3120,
+    "rise": 0.2,
+    "run": 0.62,
+    "angleDeg": 17.88
+  },
+  {
+    "slug": "ramp_long",
+    "object": "ramp_long",
+    "path": "assets/models/ramp_long.glb",
+    "tris": 132,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Long ramp for a longer run-up.",
+    "size": [
+      1.1797,
+      0.5219,
+      0.34
+    ],
+    "bytes": 3116,
+    "rise": 0.34,
+    "run": 1.15,
+    "angleDeg": 16.47
+  },
+  {
+    "slug": "ramp_steep",
+    "object": "ramp_steep",
+    "path": "assets/models/ramp_steep.glb",
+    "tris": 132,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Steep ramp for a fast drop.",
+    "size": [
+      0.5844,
+      0.5751,
+      0.34
+    ],
+    "bytes": 3124,
+    "rise": 0.38,
+    "run": 0.55,
+    "angleDeg": 34.64
+  },
+  {
+    "slug": "ramp_gentle",
+    "object": "ramp_gentle",
+    "path": "assets/models/ramp_gentle.glb",
+    "tris": 132,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Gentle ramp. Keeps a car rolling without launching it.",
+    "size": [
+      1.2272,
+      0.2625,
+      0.4
+    ],
+    "bytes": 3124,
+    "rise": 0.16,
+    "run": 1.2,
+    "angleDeg": 7.59
+  },
+  {
+    "slug": "ramp_curved",
+    "object": "ramp_curved",
+    "path": "assets/models/ramp_curved.glb",
+    "tris": 264,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Curved ramp. Bends a rolling path sideways.",
+    "size": [
+      1.1669,
+      0.3005,
+      0.8989
+    ],
+    "bytes": 4400
+  },
+  {
+    "slug": "ramp_spiral",
+    "object": "ramp_spiral",
+    "path": "assets/models/ramp_spiral.glb",
+    "tris": 732,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Spiral ramp. Drops a ball through a full turn.",
+    "size": [
+      0.91,
+      0.6023,
+      0.9168
+    ],
+    "bytes": 10692
+  },
+  {
+    "slug": "narrow_beam",
+    "object": "narrow_beam",
+    "path": "assets/models/narrow_beam.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Narrow beam. A precise path a ball must stay on.",
+    "size": [
+      1.05,
+      0.05,
+      0.09
+    ],
+    "bytes": 1636
+  },
+  {
+    "slug": "launch_track",
+    "object": "launch_track",
+    "path": "assets/models/launch_track.glb",
+    "tris": 132,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Guided launch track with side rails.",
+    "size": [
+      0.9,
+      0.105,
+      0.24
+    ],
+    "bytes": 3204
+  },
+  {
+    "slug": "platform_small",
+    "object": "platform_small",
+    "path": "assets/models/platform_small.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Small platform. Tilts or rises.",
+    "size": [
+      0.42,
+      0.05,
+      0.42
+    ],
+    "bytes": 1644
+  },
+  {
+    "slug": "platform_wide",
+    "object": "platform_wide",
+    "path": "assets/models/platform_wide.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Wide platform for seesaws and lifts.",
+    "size": [
+      0.85,
+      0.05,
+      0.42
+    ],
+    "bytes": 1640
+  },
+  {
+    "slug": "platform_long",
+    "object": "platform_long",
+    "path": "assets/models/platform_long.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Long platform / bridge deck.",
+    "size": [
+      1.2,
+      0.05,
+      0.3
+    ],
+    "bytes": 1648
+  },
+  {
+    "slug": "seesaw",
+    "object": "seesaw",
+    "path": "assets/models/seesaw.glb",
+    "tris": 112,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Seesaw. Deck is a separate hinged body in levels that tilt it.",
+    "size": [
+      0.95,
+      0.235,
+      0.28
+    ],
+    "bytes": 2932
+  },
+  {
+    "slug": "seesaw_deck",
+    "object": "seesaw_deck",
+    "path": "assets/models/seesaw_deck.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Seesaw deck alone, for hinged setups.",
+    "size": [
+      0.95,
+      0.05,
+      0.28
+    ],
+    "bytes": 1636
+  },
+  {
+    "slug": "seesaw_pivot",
+    "object": "seesaw_pivot",
+    "path": "assets/models/seesaw_pivot.glb",
+    "tris": 68,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Seesaw fulcrum.",
+    "size": [
+      0.2387,
+      0.19,
+      0.2705
+    ],
+    "bytes": 1932
+  },
+  {
+    "slug": "trapdoor",
+    "object": "trapdoor",
+    "path": "assets/models/trapdoor.glb",
+    "tris": 88,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Trapdoor. Drops away when triggered.",
+    "size": [
+      0.5,
+      0.057,
+      0.5
+    ],
+    "bytes": 2588
+  },
+  {
+    "slug": "conveyor",
+    "object": "conveyor",
+    "path": "assets/models/conveyor.glb",
+    "tris": 364,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Conveyor belt. Carries objects along its surface.",
+    "size": [
+      1.1513,
+      0.2315,
+      0.38
+    ],
+    "bytes": 6496
+  },
+  {
+    "slug": "drawbridge",
+    "object": "drawbridge",
+    "path": "assets/models/drawbridge.glb",
+    "tris": 220,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Drawbridge leaf. Rotates up or down to open a path.",
+    "size": [
+      0.8,
+      0.0565,
+      0.34
+    ],
+    "bytes": 3844
+  },
+  {
+    "slug": "collapsible_bridge",
+    "object": "collapsible_bridge",
+    "path": "assets/models/collapsible_bridge.glb",
+    "tris": 132,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Bridge that gives way under enough weight.",
+    "size": [
+      0.95,
+      0.24,
+      0.32
+    ],
+    "bytes": 3212
+  },
+  {
+    "slug": "rope_bridge",
+    "object": "rope_bridge",
+    "path": "assets/models/rope_bridge.glb",
+    "tris": 444,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Rope-slat toy bridge.",
+    "size": [
+      1.0,
+      0.1614,
+      0.34
+    ],
+    "bytes": 7064
+  },
+  {
+    "slug": "flag_base",
+    "object": "flag_base",
+    "path": "assets/models/flag_base.glb",
+    "tris": 276,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Flag pole and base. Static half of the flag target.",
+    "size": [
+      0.38,
+      0.6925,
+      0.38
+    ],
+    "bytes": 5312
+  },
+  {
+    "slug": "flag_cloth",
+    "object": "flag_cloth",
+    "path": "assets/models/flag_cloth.glb",
+    "tris": 72,
+    "materials": 1,
+    "collider": "none",
+    "purpose": "Flag itself. Slides up the pole when the level is won.",
+    "size": [
+      0.1559,
+      0.17,
+      0.3049
+    ],
+    "bytes": 1992
+  },
+  {
+    "slug": "bell",
+    "object": "bell",
+    "path": "assets/models/bell.glb",
+    "tris": 668,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Large bell. Rings when struck.",
+    "size": [
+      0.381,
+      0.3353,
+      0.381
+    ],
+    "bytes": 10052
+  },
+  {
+    "slug": "chest_base",
+    "object": "chest_base",
+    "path": "assets/models/chest_base.glb",
+    "tris": 176,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Treasure chest body.",
+    "size": [
+      0.395,
+      0.21,
+      0.26
+    ],
+    "bytes": 3756
+  },
+  {
+    "slug": "chest_lid",
+    "object": "chest_lid",
+    "path": "assets/models/chest_lid.glb",
+    "tris": 232,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Chest lid. Hinges open on completion.",
+    "size": [
+      0.36,
+      0.2663,
+      0.2763
+    ],
+    "bytes": 4380
+  },
+  {
+    "slug": "fireworks_box",
+    "object": "fireworks_box",
+    "path": "assets/models/fireworks_box.glb",
+    "tris": 320,
+    "materials": 4,
+    "collider": "box",
+    "purpose": "Fireworks box. Fires celebration bursts on completion.",
+    "size": [
+      0.3,
+      0.44,
+      0.3
+    ],
+    "bytes": 6412
+  },
+  {
+    "slug": "celebration_machine",
+    "object": "celebration_machine",
+    "path": "assets/models/celebration_machine.glb",
+    "tris": 276,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Confetti machine. Primary celebration target.",
+    "size": [
+      0.4217,
+      0.49,
+      0.34
+    ],
+    "bytes": 5416
+  },
+  {
+    "slug": "finish_tower",
+    "object": "finish_tower",
+    "path": "assets/models/finish_tower.glb",
+    "tris": 176,
+    "materials": 4,
+    "collider": "box",
+    "purpose": "Finish tower landmark. Large, unmistakable final target.",
+    "size": [
+      0.34,
+      0.8944,
+      0.34
+    ],
+    "bytes": 4684
+  },
+  {
+    "slug": "city_beacon",
+    "object": "city_beacon",
+    "path": "assets/models/city_beacon.glb",
+    "tris": 348,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "City beacon. Lights up when the chain completes.",
+    "size": [
+      0.3234,
+      0.7265,
+      0.3357
+    ],
+    "bytes": 6180
+  },
+  {
+    "slug": "road_straight",
+    "object": "road_straight",
+    "path": "assets/models/road_straight.glb",
+    "tris": 220,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Straight road tile.",
+    "size": [
+      1.2,
+      0.028,
+      0.7
+    ],
+    "bytes": 4232
+  },
+  {
+    "slug": "road_wide",
+    "object": "road_wide",
+    "path": "assets/models/road_wide.glb",
+    "tris": 220,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Wide road tile / plaza.",
+    "size": [
+      1.2,
+      0.028,
+      1.1
+    ],
+    "bytes": 4220
+  },
+  {
+    "slug": "traffic_barrier",
+    "object": "traffic_barrier",
+    "path": "assets/models/traffic_barrier.glb",
+    "tris": 220,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Traffic barrier. Blocks or is knocked aside.",
+    "size": [
+      0.52,
+      0.25,
+      0.12
+    ],
+    "bytes": 4224
+  },
+  {
+    "slug": "traffic_cone",
+    "object": "traffic_cone",
+    "path": "assets/models/traffic_cone.glb",
+    "tris": 276,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Traffic cone. Light scatter prop.",
+    "size": [
+      0.17,
+      0.241,
+      0.17
+    ],
+    "bytes": 4860
+  },
+  {
+    "slug": "street_sign",
+    "object": "street_sign",
+    "path": "assets/models/street_sign.glb",
+    "tris": 112,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Street sign. Scenery and light obstacle.",
+    "size": [
+      0.0312,
+      0.545,
+      0.24
+    ],
+    "bytes": 2948
+  },
+  {
+    "slug": "lamp_post",
+    "object": "lamp_post",
+    "path": "assets/models/lamp_post.glb",
+    "tris": 344,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Street lamp. Vertical scenery.",
+    "size": [
+      0.2538,
+      0.7206,
+      0.1269
+    ],
+    "bytes": 5764
+  },
+  {
+    "slug": "park_tree",
+    "object": "park_tree",
+    "path": "assets/models/park_tree.glb",
+    "tris": 324,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Park tree. Scenery.",
+    "size": [
+      0.3127,
+      0.5789,
+      0.2761
+    ],
+    "bytes": 5968
+  },
+  {
+    "slug": "park_bench",
+    "object": "park_bench",
+    "path": "assets/models/park_bench.glb",
+    "tris": 176,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Park bench. Scenery.",
+    "size": [
+      0.36,
+      0.245,
+      0.14
+    ],
+    "bytes": 3760
+  },
+  {
+    "slug": "pedestrian_bridge",
+    "object": "pedestrian_bridge",
+    "path": "assets/models/pedestrian_bridge.glb",
+    "tris": 308,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Pedestrian bridge. Elevated path across a street.",
+    "size": [
+      1.478,
+      0.5125,
+      0.305
+    ],
+    "bytes": 5796
+  },
+  {
+    "slug": "building_small",
+    "object": "building_small",
+    "path": "assets/models/building_small.glb",
+    "tris": 792,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Small toy building.",
+    "size": [
+      0.46,
+      0.5925,
+      0.46
+    ],
+    "bytes": 11876
+  },
+  {
+    "slug": "building_mid",
+    "object": "building_mid",
+    "path": "assets/models/building_mid.glb",
+    "tris": 1144,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Mid-height toy building.",
+    "size": [
+      0.46,
+      0.8925,
+      0.46
+    ],
+    "bytes": 16292
+  },
+  {
+    "slug": "building_tall",
+    "object": "building_tall",
+    "path": "assets/models/building_tall.glb",
+    "tris": 1496,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Tall toy building landmark.",
+    "size": [
+      0.46,
+      1.2925,
+      0.46
+    ],
+    "bytes": 20708
+  }
+]

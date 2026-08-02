@@ -1,0 +1,1306 @@
+[
+  {
+    "slug": "roll_cylinder",
+    "object": "roll_cylinder",
+    "path": "assets/models/roll_cylinder.glb",
+    "tris": 92,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Rolling cylinder. Travels along its side.",
+    "size": [
+      0.17,
+      0.17,
+      0.3
+    ],
+    "bytes": 2220
+  },
+  {
+    "slug": "toy_barrel",
+    "object": "toy_barrel",
+    "path": "assets/models/toy_barrel.glb",
+    "tris": 812,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Wooden-style toy barrel.",
+    "size": [
+      0.2641,
+      0.2641,
+      0.26
+    ],
+    "bytes": 11324
+  },
+  {
+    "slug": "sliding_crate",
+    "object": "sliding_crate",
+    "path": "assets/models/sliding_crate.glb",
+    "tris": 220,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Sliding crate. Pushed along conveyors and floors.",
+    "size": [
+      0.276,
+      0.26,
+      0.276
+    ],
+    "bytes": 4320
+  },
+  {
+    "slug": "delivery_cart",
+    "object": "delivery_cart",
+    "path": "assets/models/delivery_cart.glb",
+    "tris": 88,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Open toy cart. Carries a payload along a track.",
+    "size": [
+      0.36,
+      0.185,
+      0.26
+    ],
+    "bytes": 2656,
+    "wheel_offsets": [
+      [
+        0.12,
+        -0.07,
+        0.13
+      ],
+      [
+        0.12,
+        -0.07,
+        -0.13
+      ],
+      [
+        -0.12,
+        -0.07,
+        0.13
+      ],
+      [
+        -0.12,
+        -0.07,
+        -0.13
+      ]
+    ]
+  },
+  {
+    "slug": "train_cart",
+    "object": "train_cart",
+    "path": "assets/models/train_cart.glb",
+    "tris": 180,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Toy train cart.",
+    "size": [
+      0.4,
+      0.44,
+      0.24
+    ],
+    "bytes": 4248
+  },
+  {
+    "slug": "toy_boat",
+    "object": "toy_boat",
+    "path": "assets/models/toy_boat.glb",
+    "tris": 156,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Floating toy boat. Buoyant, carries cargo across water.",
+    "size": [
+      0.55,
+      0.2988,
+      0.2429
+    ],
+    "bytes": 3404
+  },
+  {
+    "slug": "toy_rocket",
+    "object": "toy_rocket",
+    "path": "assets/models/toy_rocket.glb",
+    "tris": 286,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Toy rocket. Launches upward when triggered.",
+    "size": [
+      0.1683,
+      0.51,
+      0.1922
+    ],
+    "bytes": 5020
+  },
+  {
+    "slug": "metal_ball",
+    "object": "metal_ball",
+    "path": "assets/models/metal_ball.glb",
+    "tris": 80,
+    "materials": 1,
+    "collider": "sphere",
+    "purpose": "Steel-look ball. The only thing magnets attract.",
+    "size": [
+      0.1179,
+      0.124,
+      0.124
+    ],
+    "bytes": 2068,
+    "radius": 0.062
+  },
+  {
+    "slug": "pendulum",
+    "object": "pendulum",
+    "path": "assets/models/pendulum.glb",
+    "tris": 160,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Swinging pendulum. Pivot is at the top of the arm.",
+    "size": [
+      0.1751,
+      0.6539,
+      0.1666
+    ],
+    "bytes": 3516
+  },
+  {
+    "slug": "toy_hammer",
+    "object": "toy_hammer",
+    "path": "assets/models/toy_hammer.glb",
+    "tris": 88,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Swinging toy hammer. Delivers a large single hit.",
+    "size": [
+      0.49,
+      0.16,
+      0.14
+    ],
+    "bytes": 2652
+  },
+  {
+    "slug": "rotating_arm",
+    "object": "rotating_arm",
+    "path": "assets/models/rotating_arm.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Rotating arm. Sweeps objects off a platform.",
+    "size": [
+      0.5,
+      0.06,
+      0.08
+    ],
+    "bytes": 1612
+  },
+  {
+    "slug": "gear_small",
+    "object": "gear_small",
+    "path": "assets/models/gear_small.glb",
+    "tris": 536,
+    "materials": 2,
+    "collider": "cylinder",
+    "purpose": "Toothed gear (small). Rotates to drive a chain.",
+    "size": [
+      0.2548,
+      0.2548,
+      0.075
+    ],
+    "bytes": 8224
+  },
+  {
+    "slug": "gear_large",
+    "object": "gear_large",
+    "path": "assets/models/gear_large.glb",
+    "tris": 712,
+    "materials": 2,
+    "collider": "cylinder",
+    "purpose": "Toothed gear (large). Rotates to drive a chain.",
+    "size": [
+      0.4116,
+      0.4116,
+      0.075
+    ],
+    "bytes": 10436
+  },
+  {
+    "slug": "pulley",
+    "object": "pulley",
+    "path": "assets/models/pulley.glb",
+    "tris": 380,
+    "materials": 2,
+    "collider": "cylinder",
+    "purpose": "Pulley wheel for rope systems.",
+    "size": [
+      0.282,
+      0.282,
+      0.075
+    ],
+    "bytes": 6132
+  },
+  {
+    "slug": "winch",
+    "object": "winch",
+    "path": "assets/models/winch.glb",
+    "tris": 160,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Winch drum. Raises and lowers a hook.",
+    "size": [
+      0.22,
+      0.2081,
+      0.26
+    ],
+    "bytes": 3512
+  },
+  {
+    "slug": "crane",
+    "object": "crane",
+    "path": "assets/models/crane.glb",
+    "tris": 176,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Tower crane. Static structure with a moving hook.",
+    "size": [
+      0.93,
+      1.05,
+      0.34
+    ],
+    "bytes": 4216
+  },
+  {
+    "slug": "crane_hook",
+    "object": "crane_hook",
+    "path": "assets/models/crane_hook.glb",
+    "tris": 324,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Crane hook. Kinematic; carries a payload down a rope.",
+    "size": [
+      0.1372,
+      0.2003,
+      0.075
+    ],
+    "bytes": 5464
+  },
+  {
+    "slug": "catapult",
+    "object": "catapult",
+    "path": "assets/models/catapult.glb",
+    "tris": 204,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Catapult. Flings its payload on a high arc.",
+    "size": [
+      0.4813,
+      0.415,
+      0.28
+    ],
+    "bytes": 4528
+  },
+  {
+    "slug": "piston",
+    "object": "piston",
+    "path": "assets/models/piston.glb",
+    "tris": 180,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Piston. Punches along +X when triggered.",
+    "size": [
+      0.435,
+      0.2,
+      0.2
+    ],
+    "bytes": 4236
+  },
+  {
+    "slug": "water_wheel",
+    "object": "water_wheel",
+    "path": "assets/models/water_wheel.glb",
+    "tris": 468,
+    "materials": 2,
+    "collider": "cylinder",
+    "purpose": "Water wheel. Turns when water or objects hit its paddles.",
+    "size": [
+      0.5127,
+      0.5127,
+      0.2
+    ],
+    "bytes": 7384
+  },
+  {
+    "slug": "windmill",
+    "object": "windmill",
+    "path": "assets/models/windmill.glb",
+    "tris": 360,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Windmill. Rotating sails driven by a fan.",
+    "size": [
+      0.3195,
+      0.835,
+      0.43
+    ],
+    "bytes": 5928
+  },
+  {
+    "slug": "lift_platform",
+    "object": "lift_platform",
+    "path": "assets/models/lift_platform.glb",
+    "tris": 88,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Lift platform. Rises when activated.",
+    "size": [
+      0.42,
+      0.215,
+      0.42
+    ],
+    "bytes": 2660
+  },
+  {
+    "slug": "sliding_door",
+    "object": "sliding_door",
+    "path": "assets/models/sliding_door.glb",
+    "tris": 88,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Sliding door. Blocks a path until opened.",
+    "size": [
+      0.075,
+      0.52,
+      0.44
+    ],
+    "bytes": 2656
+  },
+  {
+    "slug": "robot_arm",
+    "object": "robot_arm",
+    "path": "assets/models/robot_arm.glb",
+    "tris": 248,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Robotic toy arm. Sweeps or grabs on a timer.",
+    "size": [
+      0.4951,
+      0.16,
+      0.1963
+    ],
+    "bytes": 4624
+  },
+  {
+    "slug": "toy_fan",
+    "object": "toy_fan",
+    "path": "assets/models/toy_fan.glb",
+    "tris": 380,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Toy fan. Blows dynamic objects along +X when switched on.",
+    "size": [
+      0.16,
+      0.3554,
+      0.3207
+    ],
+    "bytes": 6656
+  },
+  {
+    "slug": "balloon_red",
+    "object": "balloon_red",
+    "path": "assets/models/balloon_red.glb",
+    "tris": 90,
+    "materials": 1,
+    "collider": "sphere",
+    "purpose": "Balloon. Floats upward until popped.",
+    "size": [
+      0.2473,
+      0.3534,
+      0.26
+    ],
+    "bytes": 2216,
+    "radius": 0.13
+  },
+  {
+    "slug": "balloon_blue",
+    "object": "balloon_blue",
+    "path": "assets/models/balloon_blue.glb",
+    "tris": 90,
+    "materials": 1,
+    "collider": "sphere",
+    "purpose": "Balloon. Floats upward until popped.",
+    "size": [
+      0.2473,
+      0.3534,
+      0.26
+    ],
+    "bytes": 2216,
+    "radius": 0.13
+  },
+  {
+    "slug": "balloon_yellow",
+    "object": "balloon_yellow",
+    "path": "assets/models/balloon_yellow.glb",
+    "tris": 90,
+    "materials": 1,
+    "collider": "sphere",
+    "purpose": "Balloon. Floats upward until popped.",
+    "size": [
+      0.2473,
+      0.3534,
+      0.26
+    ],
+    "bytes": 2224,
+    "radius": 0.13
+  },
+  {
+    "slug": "balloon_green",
+    "object": "balloon_green",
+    "path": "assets/models/balloon_green.glb",
+    "tris": 90,
+    "materials": 1,
+    "collider": "sphere",
+    "purpose": "Balloon. Floats upward until popped.",
+    "size": [
+      0.2473,
+      0.3534,
+      0.26
+    ],
+    "bytes": 2220,
+    "radius": 0.13
+  },
+  {
+    "slug": "hot_air_balloon",
+    "object": "hot_air_balloon",
+    "path": "assets/models/hot_air_balloon.glb",
+    "tris": 140,
+    "materials": 2,
+    "collider": "sphere",
+    "purpose": "Hot-air balloon. Lifts a payload in its basket.",
+    "size": [
+      0.4946,
+      0.81,
+      0.52
+    ],
+    "bytes": 3380,
+    "radius": 0.26
+  },
+  {
+    "slug": "air_pipe",
+    "object": "air_pipe",
+    "path": "assets/models/air_pipe.glb",
+    "tris": 116,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Air pipe. Channels a fan's stream.",
+    "size": [
+      0.6,
+      0.1902,
+      0.1969
+    ],
+    "bytes": 2496
+  },
+  {
+    "slug": "inflatable_tube",
+    "object": "inflatable_tube",
+    "path": "assets/models/inflatable_tube.glb",
+    "tris": 192,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Inflatable ring. Bouncy floating obstacle.",
+    "size": [
+      0.55,
+      0.15,
+      0.55
+    ],
+    "bytes": 3396
+  },
+  {
+    "slug": "air_launcher",
+    "object": "air_launcher",
+    "path": "assets/models/air_launcher.glb",
+    "tris": 160,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Air launcher. Blasts an object straight up.",
+    "size": [
+      0.24,
+      0.36,
+      0.24
+    ],
+    "bytes": 3436
+  },
+  {
+    "slug": "water_pool",
+    "object": "water_pool",
+    "path": "assets/models/water_pool.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Shallow water volume. Buoyant.",
+    "size": [
+      1.2,
+      0.1,
+      0.9
+    ],
+    "bytes": 1636
+  },
+  {
+    "slug": "water_channel",
+    "object": "water_channel",
+    "path": "assets/models/water_channel.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Narrow water channel.",
+    "size": [
+      1.6,
+      0.1,
+      0.4
+    ],
+    "bytes": 1640
+  },
+  {
+    "slug": "water_tank",
+    "object": "water_tank",
+    "path": "assets/models/water_tank.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Deep water tank.",
+    "size": [
+      0.6,
+      0.36,
+      0.6
+    ],
+    "bytes": 1640
+  },
+  {
+    "slug": "water_bucket",
+    "object": "water_bucket",
+    "path": "assets/models/water_bucket.glb",
+    "tris": 332,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Water bucket. Tips its contents when knocked.",
+    "size": [
+      0.3201,
+      0.2155,
+      0.3201
+    ],
+    "bytes": 5564
+  },
+  {
+    "slug": "tilting_container",
+    "object": "tilting_container",
+    "path": "assets/models/tilting_container.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Container that tips over a pivot when filled.",
+    "size": [
+      0.34,
+      0.2,
+      0.26
+    ],
+    "bytes": 1648
+  },
+  {
+    "slug": "water_pipe",
+    "object": "water_pipe",
+    "path": "assets/models/water_pipe.glb",
+    "tris": 116,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Water pipe segment.",
+    "size": [
+      0.7,
+      0.1617,
+      0.1669
+    ],
+    "bytes": 2504
+  },
+  {
+    "slug": "floating_platform",
+    "object": "floating_platform",
+    "path": "assets/models/floating_platform.glb",
+    "tris": 228,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Floating platform. Rides on a water volume.",
+    "size": [
+      0.4854,
+      0.1627,
+      0.46
+    ],
+    "bytes": 4288
+  },
+  {
+    "slug": "water_gate",
+    "object": "water_gate",
+    "path": "assets/models/water_gate.glb",
+    "tris": 88,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Water gate. Lifts to release a flow.",
+    "size": [
+      0.075,
+      0.44,
+      0.46
+    ],
+    "bytes": 2648
+  },
+  {
+    "slug": "waterfall_switch",
+    "object": "waterfall_switch",
+    "path": "assets/models/waterfall_switch.glb",
+    "tris": 160,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Waterfall switch. Opens a cascade when triggered.",
+    "size": [
+      0.3589,
+      0.2925,
+      0.22
+    ],
+    "bytes": 3528
+  },
+  {
+    "slug": "horseshoe_magnet",
+    "object": "horseshoe_magnet",
+    "path": "assets/models/horseshoe_magnet.glb",
+    "tris": 220,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Horseshoe magnet. Attracts metal balls when energised.",
+    "size": [
+      0.28,
+      0.425,
+      0.09
+    ],
+    "bytes": 4240
+  },
+  {
+    "slug": "electromagnet",
+    "object": "electromagnet",
+    "path": "assets/models/electromagnet.glb",
+    "tris": 1236,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Electromagnet. Stronger pull, switched on by a relay.",
+    "size": [
+      0.24,
+      0.2292,
+      0.218
+    ],
+    "bytes": 16416
+  },
+  {
+    "slug": "battery",
+    "object": "battery",
+    "path": "assets/models/battery.glb",
+    "tris": 324,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Battery. Powers an electrical chain.",
+    "size": [
+      0.1674,
+      0.305,
+      0.1729
+    ],
+    "bytes": 5888
+  },
+  {
+    "slug": "cable",
+    "object": "cable",
+    "path": "assets/models/cable.glb",
+    "tris": 20,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Cable run between electrical parts.",
+    "size": [
+      0.7,
+      0.0381,
+      0.044
+    ],
+    "bytes": 1340
+  },
+  {
+    "slug": "power_switch",
+    "object": "power_switch",
+    "path": "assets/models/power_switch.glb",
+    "tris": 88,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Power switch. Energises a circuit.",
+    "size": [
+      0.2221,
+      0.2291,
+      0.12
+    ],
+    "bytes": 2656
+  },
+  {
+    "slug": "energy_node",
+    "object": "energy_node",
+    "path": "assets/models/energy_node.glb",
+    "tris": 196,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Energy node. Relays power onward when struck.",
+    "size": [
+      0.2187,
+      0.27,
+      0.2269
+    ],
+    "bytes": 3952
+  },
+  {
+    "slug": "electrical_relay",
+    "object": "electrical_relay",
+    "path": "assets/models/electrical_relay.glb",
+    "tris": 160,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Relay. Switches a downstream device on.",
+    "size": [
+      0.2,
+      0.2377,
+      0.16
+    ],
+    "bytes": 3532
+  },
+  {
+    "slug": "laser_emitter",
+    "object": "laser_emitter",
+    "path": "assets/models/laser_emitter.glb",
+    "tris": 160,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Laser emitter.",
+    "size": [
+      0.25,
+      0.14,
+      0.14
+    ],
+    "bytes": 3412
+  },
+  {
+    "slug": "laser_receiver",
+    "object": "laser_receiver",
+    "path": "assets/models/laser_receiver.glb",
+    "tris": 160,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Laser receiver. Fires when the beam lands.",
+    "size": [
+      0.21,
+      0.2,
+      0.16
+    ],
+    "bytes": 3444
+  },
+  {
+    "slug": "rotating_mirror",
+    "object": "rotating_mirror",
+    "path": "assets/models/rotating_mirror.glb",
+    "tris": 88,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Rotating mirror. Redirects a beam.",
+    "size": [
+      0.0575,
+      0.26,
+      0.26
+    ],
+    "bytes": 2580
+  },
+  {
+    "slug": "powered_door",
+    "object": "powered_door",
+    "path": "assets/models/powered_door.glb",
+    "tris": 88,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Powered door. Slides open when a circuit completes.",
+    "size": [
+      0.075,
+      0.5,
+      0.46
+    ],
+    "bytes": 2624
+  },
+  {
+    "slug": "block_wall",
+    "object": "block_wall",
+    "path": "assets/models/block_wall.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Stacked block wall.",
+    "size": [
+      0.1,
+      0.62,
+      0.6
+    ],
+    "bytes": 1632,
+    "flavour": "block"
+  },
+  {
+    "slug": "glass_panel",
+    "object": "glass_panel",
+    "path": "assets/models/glass_panel.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Glass-style toy panel.",
+    "size": [
+      0.05,
+      0.56,
+      0.5
+    ],
+    "bytes": 1604,
+    "flavour": "glass"
+  },
+  {
+    "slug": "wood_barrier",
+    "object": "wood_barrier",
+    "path": "assets/models/wood_barrier.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Wooden-style barrier.",
+    "size": [
+      0.09,
+      0.4,
+      0.62
+    ],
+    "bytes": 1636,
+    "flavour": "block"
+  },
+  {
+    "slug": "brick_stack",
+    "object": "brick_stack",
+    "path": "assets/models/brick_stack.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Stack of toy bricks.",
+    "size": [
+      0.2,
+      0.52,
+      0.42
+    ],
+    "bytes": 1640,
+    "flavour": "block"
+  },
+  {
+    "slug": "ice_block",
+    "object": "ice_block",
+    "path": "assets/models/ice_block.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Ice block.",
+    "size": [
+      0.28,
+      0.32,
+      0.28
+    ],
+    "bytes": 1628,
+    "flavour": "glass"
+  },
+  {
+    "slug": "debris_block",
+    "object": "debris_block",
+    "path": "assets/models/debris_block.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Debris piece. Pooled, revealed when its parent breaks.",
+    "size": [
+      0.075,
+      0.075,
+      0.075
+    ],
+    "bytes": 1640
+  },
+  {
+    "slug": "debris_glass",
+    "object": "debris_glass",
+    "path": "assets/models/debris_glass.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Debris piece. Pooled, revealed when its parent breaks.",
+    "size": [
+      0.075,
+      0.075,
+      0.075
+    ],
+    "bytes": 1636
+  },
+  {
+    "slug": "debris_wood",
+    "object": "debris_wood",
+    "path": "assets/models/debris_wood.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Debris piece. Pooled, revealed when its parent breaks.",
+    "size": [
+      0.075,
+      0.075,
+      0.075
+    ],
+    "bytes": 1636
+  },
+  {
+    "slug": "debris_brick",
+    "object": "debris_brick",
+    "path": "assets/models/debris_brick.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Debris piece. Pooled, revealed when its parent breaks.",
+    "size": [
+      0.075,
+      0.075,
+      0.075
+    ],
+    "bytes": 1640
+  },
+  {
+    "slug": "debris_stone",
+    "object": "debris_stone",
+    "path": "assets/models/debris_stone.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Debris piece. Pooled, revealed when its parent breaks.",
+    "size": [
+      0.075,
+      0.075,
+      0.075
+    ],
+    "bytes": 1644
+  },
+  {
+    "slug": "ceramic_pot",
+    "object": "ceramic_pot",
+    "path": "assets/models/ceramic_pot.glb",
+    "tris": 396,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Ceramic-style pot. Shatters on impact.",
+    "size": [
+      0.302,
+      0.2612,
+      0.2872
+    ],
+    "bytes": 6324,
+    "flavour": "glass"
+  },
+  {
+    "slug": "sandcastle",
+    "object": "sandcastle",
+    "path": "assets/models/sandcastle.glb",
+    "tris": 132,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Sandcastle. Collapses when hit.",
+    "size": [
+      0.34,
+      0.44,
+      0.34
+    ],
+    "bytes": 2728,
+    "flavour": "block"
+  },
+  {
+    "slug": "rock_pile",
+    "object": "rock_pile",
+    "path": "assets/models/rock_pile.glb",
+    "tris": 80,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Rock pile. Scatters when struck.",
+    "size": [
+      0.4478,
+      0.28,
+      0.3516
+    ],
+    "bytes": 2144,
+    "flavour": "block"
+  },
+  {
+    "slug": "toy_crate",
+    "object": "toy_crate",
+    "path": "assets/models/toy_crate.glb",
+    "tris": 220,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Breakable toy crate.",
+    "size": [
+      0.296,
+      0.28,
+      0.296
+    ],
+    "bytes": 4308,
+    "flavour": "block"
+  },
+  {
+    "slug": "dock",
+    "object": "dock",
+    "path": "assets/models/dock.glb",
+    "tris": 412,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Harbour dock platform.",
+    "size": [
+      1.1,
+      0.31,
+      0.6
+    ],
+    "bytes": 6600
+  },
+  {
+    "slug": "lighthouse",
+    "object": "lighthouse",
+    "path": "assets/models/lighthouse.glb",
+    "tris": 408,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Harbour lighthouse. World 3 landmark and final target.",
+    "size": [
+      0.3788,
+      0.9696,
+      0.394
+    ],
+    "bytes": 6920
+  },
+  {
+    "slug": "buoy",
+    "object": "buoy",
+    "path": "assets/models/buoy.glb",
+    "tris": 92,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Floating harbour buoy.",
+    "size": [
+      0.2141,
+      0.28,
+      0.2141
+    ],
+    "bytes": 2200
+  },
+  {
+    "slug": "carnival_tent",
+    "object": "carnival_tent",
+    "path": "assets/models/carnival_tent.glb",
+    "tris": 332,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Carnival tent. World 4 dressing.",
+    "size": [
+      0.7192,
+      0.77,
+      0.8261
+    ],
+    "bytes": 5624
+  },
+  {
+    "slug": "prize_booth",
+    "object": "prize_booth",
+    "path": "assets/models/prize_booth.glb",
+    "tris": 88,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Prize booth.",
+    "size": [
+      0.52,
+      0.32,
+      0.32
+    ],
+    "bytes": 2648
+  },
+  {
+    "slug": "spinning_ride",
+    "object": "spinning_ride",
+    "path": "assets/models/spinning_ride.glb",
+    "tris": 380,
+    "materials": 7,
+    "collider": "box",
+    "purpose": "Spinning carnival ride.",
+    "size": [
+      0.68,
+      0.42,
+      0.6089
+    ],
+    "bytes": 8592
+  },
+  {
+    "slug": "bunting_flag",
+    "object": "bunting_flag",
+    "path": "assets/models/bunting_flag.glb",
+    "tris": 112,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Carnival flag.",
+    "size": [
+      0.0312,
+      0.52,
+      0.236
+    ],
+    "bytes": 2952
+  },
+  {
+    "slug": "toy_truck",
+    "object": "toy_truck",
+    "path": "assets/models/toy_truck.glb",
+    "tris": 132,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Toy dump truck. Heavier than the car; shifts big loads.",
+    "size": [
+      0.49,
+      0.365,
+      0.26
+    ],
+    "bytes": 3208,
+    "wheel_offsets": [
+      [
+        0.15,
+        -0.1,
+        0.15
+      ],
+      [
+        0.15,
+        -0.1,
+        -0.15
+      ],
+      [
+        -0.13,
+        -0.1,
+        0.15
+      ],
+      [
+        -0.13,
+        -0.1,
+        -0.15
+      ]
+    ]
+  },
+  {
+    "slug": "scaffold",
+    "object": "scaffold",
+    "path": "assets/models/scaffold.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Scaffold pole.",
+    "size": [
+      0.06,
+      0.9,
+      0.06
+    ],
+    "bytes": 1636
+  },
+  {
+    "slug": "construction_slab",
+    "object": "construction_slab",
+    "path": "assets/models/construction_slab.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Construction ground slab.",
+    "size": [
+      0.7,
+      0.06,
+      0.5
+    ],
+    "bytes": 1616
+  },
+  {
+    "slug": "toy_machine",
+    "object": "toy_machine",
+    "path": "assets/models/toy_machine.glb",
+    "tris": 180,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Factory machine housing.",
+    "size": [
+      0.525,
+      0.75,
+      0.4
+    ],
+    "bytes": 4140
+  },
+  {
+    "slug": "loading_platform",
+    "object": "loading_platform",
+    "path": "assets/models/loading_platform.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Raised loading platform.",
+    "size": [
+      0.8,
+      0.16,
+      0.6
+    ],
+    "bytes": 1652
+  },
+  {
+    "slug": "factory_pipe",
+    "object": "factory_pipe",
+    "path": "assets/models/factory_pipe.glb",
+    "tris": 116,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Factory pipe run.",
+    "size": [
+      0.9,
+      0.1427,
+      0.1469
+    ],
+    "bytes": 2508
+  },
+  {
+    "slug": "power_generator",
+    "object": "power_generator",
+    "path": "assets/models/power_generator.glb",
+    "tris": 160,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Power generator. Spins up as a final target.",
+    "size": [
+      0.38,
+      0.54,
+      0.3
+    ],
+    "bytes": 3524
+  },
+  {
+    "slug": "rocket_pad",
+    "object": "rocket_pad",
+    "path": "assets/models/rocket_pad.glb",
+    "tris": 508,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Rocket launch pad. Final target for World 5.",
+    "size": [
+      0.68,
+      0.405,
+      0.68
+    ],
+    "bytes": 8224
+  },
+  {
+    "slug": "rescue_cage",
+    "object": "rescue_cage",
+    "path": "assets/models/rescue_cage.glb",
+    "tris": 220,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Rescue cage. Opens to free a trapped toy.",
+    "size": [
+      0.34,
+      0.42,
+      0.34
+    ],
+    "bytes": 4232
+  }
+]

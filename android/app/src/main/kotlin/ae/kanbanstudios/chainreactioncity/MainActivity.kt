@@ -1,4 +1,4 @@
-package ae.kanbanstudios.chain_reaction_city
+﻿package ae.kanbanstudios.chainreactioncity
 
 import io.flutter.embedding.android.FlutterActivity
 

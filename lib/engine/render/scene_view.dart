@@ -51,7 +51,8 @@ class SceneView extends StatefulWidget {
   State<SceneView> createState() => _SceneViewState();
 }
 
-class _SceneViewState extends State<SceneView> with SingleTickerProviderStateMixin {
+class _SceneViewState extends State<SceneView>
+    with SingleTickerProviderStateMixin {
   late final Ticker _ticker;
   Duration _last = Duration.zero;
   final ValueNotifier<int> _repaint = ValueNotifier<int>(0);
@@ -115,7 +116,8 @@ class _SceneViewState extends State<SceneView> with SingleTickerProviderStateMix
         final Size size = Size(c.maxWidth, c.maxHeight);
         return GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onTapUp: (TapUpDetails d) => widget.onTapWorld?.call(d.localPosition, size),
+          onTapUp: (TapUpDetails d) =>
+              widget.onTapWorld?.call(d.localPosition, size),
           onPanUpdate: (DragUpdateDetails d) => widget.onPan?.call(d.delta),
           child: CustomPaint(
             size: size,

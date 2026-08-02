@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:typed_data';
 
 import 'package:vector_math/vector_math_64.dart';
 
@@ -41,9 +42,9 @@ class Body {
     this.gravityScale = 1.0,
     this.canSleep = true,
     this.isSensor = false,
-  })  : position = position ?? Vector3.zero(),
-        orientation = orientation ?? Quaternion.identity(),
-        halfExtents = halfExtents ?? Vector3(0.1, 0.1, 0.1) {
+  }) : position = position ?? Vector3.zero(),
+       orientation = orientation ?? Quaternion.identity(),
+       halfExtents = halfExtents ?? Vector3(0.1, 0.1, 0.1) {
     setMass(mass);
   }
 
@@ -111,7 +112,9 @@ class Body {
       final double inv = i > 0 ? 1.0 / i : 0.0;
       invInertiaLocal.setValues(inv, inv, inv);
     } else {
-      final double w = halfExtents.x * 2, h = halfExtents.y * 2, d = halfExtents.z * 2;
+      final double w = halfExtents.x * 2,
+          h = halfExtents.y * 2,
+          d = halfExtents.z * 2;
       final double ix = (m / 12.0) * (h * h + d * d);
       final double iy = (m / 12.0) * (w * w + d * d);
       final double iz = (m / 12.0) * (w * w + h * h);
@@ -131,11 +134,14 @@ class Body {
     if (invMass > 0) {
       // I_world^-1 = R * I_local^-1 * R^T, with I_local^-1 diagonal.
       final Float64List r = rotation.storage;
-      final double a = invInertiaLocal.x, b = invInertiaLocal.y, c = invInertiaLocal.z;
+      final double a = invInertiaLocal.x,
+          b = invInertiaLocal.y,
+          c = invInertiaLocal.z;
       final Float64List o = invInertiaWorld.storage;
       for (int col = 0; col < 3; col++) {
         for (int row = 0; row < 3; row++) {
-          o[col * 3 + row] = r[0 * 3 + row] * a * r[0 * 3 + col] +
+          o[col * 3 + row] =
+              r[0 * 3 + row] * a * r[0 * 3 + col] +
               r[1 * 3 + row] * b * r[1 * 3 + col] +
               r[2 * 3 + row] * c * r[2 * 3 + col];
         }
@@ -145,13 +151,30 @@ class Body {
     }
 
     if (shape == ShapeKind.sphere) {
-      aabbMin.setValues(position.x - radius, position.y - radius, position.z - radius);
-      aabbMax.setValues(position.x + radius, position.y + radius, position.z + radius);
+      aabbMin.setValues(
+        position.x - radius,
+        position.y - radius,
+        position.z - radius,
+      );
+      aabbMax.setValues(
+        position.x + radius,
+        position.y + radius,
+        position.z + radius,
+      );
     } else {
       final Float64List r = rotation.storage;
-      final double ex = halfExtents.x * r[0].abs() + halfExtents.y * r[3].abs() + halfExtents.z * r[6].abs();
-      final double ey = halfExtents.x * r[1].abs() + halfExtents.y * r[4].abs() + halfExtents.z * r[7].abs();
-      final double ez = halfExtents.x * r[2].abs() + halfExtents.y * r[5].abs() + halfExtents.z * r[8].abs();
+      final double ex =
+          halfExtents.x * r[0].abs() +
+          halfExtents.y * r[3].abs() +
+          halfExtents.z * r[6].abs();
+      final double ey =
+          halfExtents.x * r[1].abs() +
+          halfExtents.y * r[4].abs() +
+          halfExtents.z * r[7].abs();
+      final double ez =
+          halfExtents.x * r[2].abs() +
+          halfExtents.y * r[5].abs() +
+          halfExtents.z * r[8].abs();
       aabbMin.setValues(position.x - ex, position.y - ey, position.z - ez);
       aabbMax.setValues(position.x + ex, position.y + ey, position.z + ez);
     }
@@ -188,7 +211,8 @@ class Body {
   }
 
   /// Largest distance from the centre to any point of the shape.
-  double get boundingRadius => shape == ShapeKind.sphere ? radius : halfExtents.length;
+  double get boundingRadius =>
+      shape == ShapeKind.sphere ? radius : halfExtents.length;
 
   static void _quatToMatrix(Quaternion q, Matrix3 out) {
     final double x = q.x, y = q.y, z = q.z, w = q.w;

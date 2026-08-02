@@ -79,9 +79,15 @@ class Mesh {
       final int ib = indices[t * 3 + 1] * 3;
       final int ic = indices[t * 3 + 2] * 3;
 
-      final double ax = positions[ia], ay = positions[ia + 1], az = positions[ia + 2];
-      final double bx = positions[ib], by = positions[ib + 1], bz = positions[ib + 2];
-      final double cx = positions[ic], cy = positions[ic + 1], cz = positions[ic + 2];
+      final double ax = positions[ia],
+          ay = positions[ia + 1],
+          az = positions[ia + 2];
+      final double bx = positions[ib],
+          by = positions[ib + 1],
+          bz = positions[ib + 2];
+      final double cx = positions[ic],
+          cy = positions[ic + 1],
+          cz = positions[ic + 2];
 
       final double e1x = bx - ax, e1y = by - ay, e1z = bz - az;
       final double e2x = cx - ax, e2y = cy - ay, e2z = cz - az;

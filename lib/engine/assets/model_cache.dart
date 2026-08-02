@@ -38,10 +38,10 @@ class ModelCache {
     return _inFlight.putIfAbsent(slug, () async {
       try {
         final ByteData data = await rootBundle.load('assets/models/$slug.glb');
-        final Mesh mesh = GlbLoader.parse(data.buffer.asUint8List(
-          data.offsetInBytes,
-          data.lengthInBytes,
-        ), name: slug);
+        final Mesh mesh = GlbLoader.parse(
+          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
+          name: slug,
+        );
         _meshes[slug] = mesh;
         _missing.remove(slug);
         return mesh;

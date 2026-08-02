@@ -190,7 +190,12 @@ class Renderer {
   }
 
   // ------------------------------------------------------------ geometry
-  void _gatherInstance(RenderInstance inst, OrbitCamera camera, double w, double h) {
+  void _gatherInstance(
+    RenderInstance inst,
+    OrbitCamera camera,
+    double w,
+    double h,
+  ) {
     final Mesh mesh = inst.mesh;
     final int vCount = mesh.vertexCount;
     final int tCount = mesh.triangleCount;
@@ -252,7 +257,9 @@ class Renderer {
     final int alpha = (inst.opacity.clamp(0.0, 1.0) * 255.0).round();
     final double tintAmt = inst.tintAmount.clamp(0.0, 1.0);
     final int tint = inst.tint;
-    final int tr = (tint >> 16) & 0xff, tg = (tint >> 8) & 0xff, tb = tint & 0xff;
+    final int tr = (tint >> 16) & 0xff,
+        tg = (tint >> 8) & 0xff,
+        tb = tint & 0xff;
 
     final Uint16List idx = mesh.indices;
     final Float32List fn = mesh.faceNormals;

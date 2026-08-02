@@ -9,6 +9,7 @@ import '../engine/render/mesh.dart';
 import '../engine/render/palette.dart';
 import '../engine/render/render_instance.dart';
 import '../engine/render/renderer.dart';
+import '../engine/render/scene_bounds.dart';
 import '../engine/render/scene_view.dart';
 
 /// Development harness used to validate the renderer against `logo.png` and to
@@ -22,7 +23,12 @@ class RenderProbe extends StatefulWidget {
 }
 
 class _RenderProbeState extends State<RenderProbe> {
-  final OrbitCamera _camera = OrbitCamera(distance: 3.4, yaw: -0.34, pitch: 0.30, fovY: 0.52);
+  final OrbitCamera _camera = OrbitCamera(
+    distance: 3.4,
+    yaw: -0.34,
+    pitch: 0.30,
+    fovY: 0.52,
+  );
   final Renderer _renderer = Renderer();
   final List<RenderInstance> _instances = <RenderInstance>[];
 
@@ -33,12 +39,27 @@ class _RenderProbeState extends State<RenderProbe> {
   bool _orbit = true;
 
   static const List<String> _slugs = <String>[
-    'cannon_barrel', 'cannon_carriage', 'cannon_wheel', 'cannonball',
-    'domino_blue', 'domino_yellow', 'domino_green', 'domino_red',
-    'block_red', 'block_blue', 'block_roof',
-    'toy_car_body', 'toy_car_wheel',
-    'capsule_yellow', 'capsule_green', 'capsule_blue', 'capsule_red', 'capsule_duo',
-    'star', 'coin', 'confetti',
+    'cannon_barrel',
+    'cannon_carriage',
+    'cannon_wheel',
+    'cannonball',
+    'domino_blue',
+    'domino_yellow',
+    'domino_green',
+    'domino_red',
+    'block_red',
+    'block_blue',
+    'block_roof',
+    'toy_car_body',
+    'toy_car_wheel',
+    'capsule_yellow',
+    'capsule_green',
+    'capsule_blue',
+    'capsule_red',
+    'capsule_duo',
+    'star',
+    'coin',
+    'confetti',
   ];
 
   @override
@@ -62,7 +83,13 @@ class _RenderProbeState extends State<RenderProbe> {
     }
   }
 
-  RenderInstance? _add(String slug, Vector3 pos, {double rotZ = 0, double rotY = 0, double rotX = 0}) {
+  RenderInstance? _add(
+    String slug,
+    Vector3 pos, {
+    double rotZ = 0,
+    double rotY = 0,
+    double rotX = 0,
+  }) {
     final Mesh? m = ModelCache.instance.peek(slug);
     if (m == null) return null;
     final Matrix4 t = Matrix4.translation(pos);
@@ -83,7 +110,23 @@ class _RenderProbeState extends State<RenderProbe> {
       final double ox = (c ~/ 4) * 3.4;
       _composition(ox, oz);
     }
+    _needsFrame = true;
   }
+
+  bool _needsFrame = true;
+
+  /// Frames the whole set for the current viewport. On a tall portrait screen
+  /// the horizontal field of view is the limiting one, which is exactly what
+  /// [OrbitCamera.frameBounds] accounts for.
+  void _frame(double aspect) {
+    final SceneBounds b = SceneBounds.of(_instances);
+    if (b.isEmpty) return;
+    _camera.frameBounds(b.lo, b.hi, aspect, pad: 1.15, verticalBias: 0.05);
+    _baseYaw = _camera.yaw;
+    _needsFrame = false;
+  }
+
+  double _baseYaw = -0.34;
 
   void _composition(double ox, double oz) {
     Vector3 p(double x, double y, double z) => Vector3(x + ox, y, z + oz);
@@ -113,7 +156,8 @@ class _RenderProbeState extends State<RenderProbe> {
     for (final (String slug, double x, double deg) in run) {
       final double a = deg * math.pi / 180.0;
       const double h = 0.42, th = 0.083;
-      final double cx = x + (h / 2) * math.sin(a) - (th / 2) * (1 - math.cos(a));
+      final double cx =
+          x + (h / 2) * math.sin(a) - (th / 2) * (1 - math.cos(a));
       final double cy = (h / 2) * math.cos(a) + (th / 2) * math.sin(a);
       _add(slug, p(cx, cy, -0.16), rotZ: -a);
     }
@@ -121,21 +165,25 @@ class _RenderProbeState extends State<RenderProbe> {
     // Car.
     _add('toy_car_body', p(1.10, 0.128, -0.30));
     for (final (double dx, double dz) in <(double, double)>[
-      (0.105, 0.105), (0.105, -0.105), (-0.105, 0.105), (-0.105, -0.105),
+      (0.105, 0.105),
+      (0.105, -0.105),
+      (-0.105, 0.105),
+      (-0.105, -0.105),
     ]) {
       _add('toy_car_wheel', p(1.10 + dx, 0.058, -0.30 + dz));
     }
 
     // Celebration burst.
-    const List<(String, double, double, double)> caps = <(String, double, double, double)>[
-      ('capsule_yellow', 1.32, 0.86, 0.30),
-      ('capsule_green', 1.55, 0.72, 0.22),
-      ('capsule_duo', 1.42, 0.58, 0.10),
-      ('capsule_red', 1.68, 0.50, 0.34),
-      ('capsule_blue', 1.24, 0.66, 0.42),
-      ('star', 1.50, 0.98, 0.05),
-      ('coin', 1.72, 0.80, -0.10),
-    ];
+    const List<(String, double, double, double)> caps =
+        <(String, double, double, double)>[
+          ('capsule_yellow', 1.32, 0.86, 0.30),
+          ('capsule_green', 1.55, 0.72, 0.22),
+          ('capsule_duo', 1.42, 0.58, 0.10),
+          ('capsule_red', 1.68, 0.50, 0.34),
+          ('capsule_blue', 1.24, 0.66, 0.42),
+          ('star', 1.50, 0.98, 0.05),
+          ('coin', 1.72, 0.80, -0.10),
+        ];
     for (final (String slug, double x, double y, double z) in caps) {
       _add(slug, p(x, y, z), rotZ: x * 3.1, rotX: z * 2.4);
     }
@@ -144,7 +192,7 @@ class _RenderProbeState extends State<RenderProbe> {
   void _onFrame(double dt) {
     _t += dt;
     if (_orbit) {
-      _camera.yaw = -0.34 + math.sin(_t * 0.35) * 0.22;
+      _camera.yaw = _baseYaw + math.sin(_t * 0.35) * 0.18;
     }
   }
 
@@ -156,7 +204,10 @@ class _RenderProbeState extends State<RenderProbe> {
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(24),
-            child: Text(_error!, style: const TextStyle(color: Toy.red, fontSize: 16)),
+            child: Text(
+              _error!,
+              style: const TextStyle(color: Toy.red, fontSize: 16),
+            ),
           ),
         ),
       );
@@ -174,16 +225,23 @@ class _RenderProbeState extends State<RenderProbe> {
       body: Stack(
         children: <Widget>[
           Positioned.fill(
-            child: SceneView(
-              key: key,
-              camera: _camera,
-              instances: _instances,
-              renderer: _renderer,
-              onFrame: _onFrame,
-              onPan: (Offset d) {
-                _orbit = false;
-                _camera.yaw -= d.dx * 0.005;
-                _camera.pitch += d.dy * 0.005;
+            child: LayoutBuilder(
+              builder: (BuildContext ctx, BoxConstraints c) {
+                if (_needsFrame && c.maxHeight > 0) {
+                  _frame(c.maxWidth / c.maxHeight);
+                }
+                return SceneView(
+                  key: key,
+                  camera: _camera,
+                  instances: _instances,
+                  renderer: _renderer,
+                  onFrame: _onFrame,
+                  onPan: (Offset d) {
+                    _orbit = false;
+                    _camera.yaw -= d.dx * 0.005;
+                    _camera.pitch += d.dy * 0.005;
+                  },
+                );
               },
             ),
           ),
@@ -207,7 +265,6 @@ class _RenderProbeState extends State<RenderProbe> {
                     ),
                     onPressed: () => setState(() {
                       _copies = n;
-                      _camera.distance = 3.4 + (n - 1) * 0.55;
                       _rebuild();
                     }),
                     child: Text('x$n'),
@@ -266,14 +323,24 @@ class _StatsPanelState extends State<_StatsPanel> {
         borderRadius: BorderRadius.circular(14),
       ),
       child: DefaultTextStyle(
-        style: const TextStyle(color: Toy.inkStrong, fontSize: 12, height: 1.35),
+        style: const TextStyle(
+          color: Toy.inkStrong,
+          fontSize: 12,
+          height: 1.35,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('instances  ${st.instancesDrawn} / ${widget.instances.length}'),
-            Text('tris  ${st.trianglesDrawn} drawn / ${st.trianglesSubmitted} sub'),
+            Text(
+              'instances  ${st.instancesDrawn} / ${widget.instances.length}',
+            ),
+            Text(
+              'tris  ${st.trianglesDrawn} drawn / ${st.trianglesSubmitted} sub',
+            ),
             Text('shadows  ${st.shadowsDrawn}'),
-            Text('cpu ms  p50 ${_p50.toStringAsFixed(2)}  p95 ${_p95.toStringAsFixed(2)}'),
+            Text(
+              'cpu ms  p50 ${_p50.toStringAsFixed(2)}  p95 ${_p95.toStringAsFixed(2)}',
+            ),
             Text('cpu ms  max ${_max.toStringAsFixed(2)}'),
           ],
         ),

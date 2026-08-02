@@ -32,13 +32,16 @@ class GlbLoader {
   /// and one bounding box at runtime.
   static Mesh parse(Uint8List bytes, {required String name}) {
     final ByteData bd = ByteData.sublistView(bytes);
-    if (bytes.length < 12) throw GlbException('$name: file too short');
+    if (bytes.length < 12) {
+      throw GlbException('$name: file too short');
+    }
     if (bd.getUint32(0, Endian.little) != _magic) {
       throw GlbException('$name: not a GLB (bad magic)');
     }
     final int version = bd.getUint32(4, Endian.little);
-    if (version != 2) throw GlbException('$name: unsupported glTF version $version');
-
+    if (version != 2) {
+      throw GlbException('$name: unsupported glTF version $version');
+    }
     Map<String, dynamic>? json;
     Uint8List? bin;
 
@@ -51,25 +54,43 @@ class GlbLoader {
         throw GlbException('$name: truncated chunk');
       }
       if (chunkType == _chunkJson) {
-        json = jsonDecode(utf8.decode(Uint8List.sublistView(bytes, dataStart, dataStart + chunkLen)))
-            as Map<String, dynamic>;
+        json =
+            jsonDecode(
+                  utf8.decode(
+                    Uint8List.sublistView(
+                      bytes,
+                      dataStart,
+                      dataStart + chunkLen,
+                    ),
+                  ),
+                )
+                as Map<String, dynamic>;
       } else if (chunkType == _chunkBin) {
         bin = Uint8List.sublistView(bytes, dataStart, dataStart + chunkLen);
       }
       offset = dataStart + chunkLen;
-      if (offset % 4 != 0) offset += 4 - (offset % 4);
+      if (offset % 4 != 0) {
+        offset += 4 - (offset % 4);
+      }
     }
 
-    if (json == null) throw GlbException('$name: missing JSON chunk');
+    if (json == null) {
+      throw GlbException('$name: missing JSON chunk');
+    }
     return _build(json, bin, name);
   }
 
   static Mesh _build(Map<String, dynamic> g, Uint8List? bin, String name) {
-    final List<dynamic> accessors = (g['accessors'] as List<dynamic>?) ?? const <dynamic>[];
-    final List<dynamic> views = (g['bufferViews'] as List<dynamic>?) ?? const <dynamic>[];
-    final List<dynamic> meshes = (g['meshes'] as List<dynamic>?) ?? const <dynamic>[];
-    final List<dynamic> nodes = (g['nodes'] as List<dynamic>?) ?? const <dynamic>[];
-    final List<dynamic> materials = (g['materials'] as List<dynamic>?) ?? const <dynamic>[];
+    final List<dynamic> accessors =
+        (g['accessors'] as List<dynamic>?) ?? const <dynamic>[];
+    final List<dynamic> views =
+        (g['bufferViews'] as List<dynamic>?) ?? const <dynamic>[];
+    final List<dynamic> meshes =
+        (g['meshes'] as List<dynamic>?) ?? const <dynamic>[];
+    final List<dynamic> nodes =
+        (g['nodes'] as List<dynamic>?) ?? const <dynamic>[];
+    final List<dynamic> materials =
+        (g['materials'] as List<dynamic>?) ?? const <dynamic>[];
 
     // Material slots, in glTF order, converted to display-space ARGB.
     final Int32List matColors = Int32List(math.max(1, materials.length));
@@ -86,30 +107,48 @@ class GlbLoader {
 
     // Resolve the node hierarchy of the default scene.
     final int sceneIndex = (g['scene'] as int?) ?? 0;
-    final List<dynamic> scenes = (g['scenes'] as List<dynamic>?) ?? const <dynamic>[];
+    final List<dynamic> scenes =
+        (g['scenes'] as List<dynamic>?) ?? const <dynamic>[];
     final List<dynamic> roots = scenes.isEmpty
         ? List<dynamic>.generate(nodes.length, (int i) => i)
-        : (((scenes[sceneIndex] as Map<String, dynamic>)['nodes'] as List<dynamic>?) ??
+        : (((scenes[sceneIndex] as Map<String, dynamic>)['nodes']
+                  as List<dynamic>?) ??
               const <dynamic>[]);
 
     void visit(int nodeIndex, Matrix4 parent) {
-      if (nodeIndex < 0 || nodeIndex >= nodes.length) return;
-      final Map<String, dynamic> node = nodes[nodeIndex] as Map<String, dynamic>;
+      if (nodeIndex < 0 || nodeIndex >= nodes.length) {
+        return;
+      }
+      final Map<String, dynamic> node =
+          nodes[nodeIndex] as Map<String, dynamic>;
       final Matrix4 local = _nodeMatrix(node);
       final Matrix4 world = parent.clone()..multiply(local);
 
       final int? meshIndex = node['mesh'] as int?;
       if (meshIndex != null && meshIndex < meshes.length) {
-        final Map<String, dynamic> m = meshes[meshIndex] as Map<String, dynamic>;
-        for (final dynamic primRaw in (m['primitives'] as List<dynamic>?) ?? const <dynamic>[]) {
+        final Map<String, dynamic> m =
+            meshes[meshIndex] as Map<String, dynamic>;
+        for (final dynamic primRaw
+            in (m['primitives'] as List<dynamic>?) ?? const <dynamic>[]) {
           final Map<String, dynamic> prim = primRaw as Map<String, dynamic>;
           final int mode = (prim['mode'] as int?) ?? 4;
           if (mode != 4) continue; // triangles only
-          _appendPrimitive(prim, accessors, views, bin, world, outPos, outIdx, outMat, name);
+          _appendPrimitive(
+            prim,
+            accessors,
+            views,
+            bin,
+            world,
+            outPos,
+            outIdx,
+            outMat,
+            name,
+          );
         }
       }
 
-      for (final dynamic c in (node['children'] as List<dynamic>?) ?? const <dynamic>[]) {
+      for (final dynamic c
+          in (node['children'] as List<dynamic>?) ?? const <dynamic>[]) {
         visit(c as int, world);
       }
     }
@@ -119,10 +158,14 @@ class GlbLoader {
       visit(r as int, identity);
     }
 
-    if (outIdx.isEmpty) throw GlbException('$name: no triangle geometry found');
+    if (outIdx.isEmpty) {
+      throw GlbException('$name: no triangle geometry found');
+    }
     final int vertexCount = outPos.length ~/ 3;
     if (vertexCount > 65535) {
-      throw GlbException('$name: $vertexCount vertices exceeds the 16-bit index budget');
+      throw GlbException(
+        '$name: $vertexCount vertices exceeds the 16-bit index budget',
+      );
     }
 
     return Mesh.build(
@@ -145,10 +188,12 @@ class GlbLoader {
     List<int> outMat,
     String name,
   ) {
-    final Map<String, dynamic> attrs = prim['attributes'] as Map<String, dynamic>;
+    final Map<String, dynamic> attrs =
+        prim['attributes'] as Map<String, dynamic>;
     final int? posAcc = attrs['POSITION'] as int?;
-    if (posAcc == null) return;
-
+    if (posAcc == null) {
+      return;
+    }
     final Float32List pos = _readFloats(posAcc, accessors, views, bin, 3, name);
     final int baseVertex = outPos.length ~/ 3;
     final int count = pos.length ~/ 3;
@@ -170,13 +215,25 @@ class GlbLoader {
 
     if (idxAcc == null) {
       for (int i = 0; i + 2 < count; i += 3) {
-        _pushTri(outIdx, baseVertex + i, baseVertex + i + 1, baseVertex + i + 2, flip);
+        _pushTri(
+          outIdx,
+          baseVertex + i,
+          baseVertex + i + 1,
+          baseVertex + i + 2,
+          flip,
+        );
         outMat.add(matSlot);
       }
     } else {
       final Uint32List idx = _readIndices(idxAcc, accessors, views, bin, name);
       for (int i = 0; i + 2 < idx.length; i += 3) {
-        _pushTri(outIdx, baseVertex + idx[i], baseVertex + idx[i + 1], baseVertex + idx[i + 2], flip);
+        _pushTri(
+          outIdx,
+          baseVertex + idx[i],
+          baseVertex + idx[i + 1],
+          baseVertex + idx[i + 2],
+          flip,
+        );
         outMat.add(matSlot);
       }
     }
@@ -209,7 +266,11 @@ class GlbLoader {
     final Matrix4 m = Matrix4.identity();
     if (t != null && t.length == 3) {
       m.setTranslation(
-        Vector3((t[0] as num).toDouble(), (t[1] as num).toDouble(), (t[2] as num).toDouble()),
+        Vector3(
+          (t[0] as num).toDouble(),
+          (t[1] as num).toDouble(),
+          (t[2] as num).toDouble(),
+        ),
       );
     }
     if (r != null && r.length == 4) {
@@ -225,7 +286,11 @@ class GlbLoader {
     if (s != null && s.length == 3) {
       m.multiply(
         Matrix4.diagonal3(
-          Vector3((s[0] as num).toDouble(), (s[1] as num).toDouble(), (s[2] as num).toDouble()),
+          Vector3(
+            (s[0] as num).toDouble(),
+            (s[1] as num).toDouble(),
+            (s[2] as num).toDouble(),
+          ),
         ),
       );
     }
@@ -258,18 +323,25 @@ class GlbLoader {
     int expectedComponents,
     String name,
   ) {
-    final Map<String, dynamic> acc = accessors[accessorIndex] as Map<String, dynamic>;
+    final Map<String, dynamic> acc =
+        accessors[accessorIndex] as Map<String, dynamic>;
     if (acc['sparse'] != null) {
-      throw GlbException('$name: sparse accessors are not supported by this pipeline');
+      throw GlbException(
+        '$name: sparse accessors are not supported by this pipeline',
+      );
     }
     final int compType = acc['componentType'] as int;
     if (compType != 5126) {
-      throw GlbException('$name: expected FLOAT positions, got componentType $compType');
+      throw GlbException(
+        '$name: expected FLOAT positions, got componentType $compType',
+      );
     }
     final String type = acc['type'] as String;
     final int comps = _typeComponents[type] ?? 0;
     if (comps != expectedComponents) {
-      throw GlbException('$name: expected $expectedComponents components, got $type');
+      throw GlbException(
+        '$name: expected $expectedComponents components, got $type',
+      );
     }
     final int count = acc['count'] as int;
     final Float32List out = Float32List(count * comps);
@@ -278,8 +350,9 @@ class GlbLoader {
     if (viewIndex == null) return out; // all zeroes, per spec
 
     final Map<String, dynamic> view = views[viewIndex] as Map<String, dynamic>;
-    if (bin == null) throw GlbException('$name: geometry references a missing BIN chunk');
-
+    if (bin == null) {
+      throw GlbException('$name: geometry references a missing BIN chunk');
+    }
     final int viewOffset = (view['byteOffset'] as int?) ?? 0;
     final int accOffset = (acc['byteOffset'] as int?) ?? 0;
     final int stride = (view['byteStride'] as int?) ?? (comps * 4);
@@ -302,20 +375,27 @@ class GlbLoader {
     Uint8List? bin,
     String name,
   ) {
-    final Map<String, dynamic> acc = accessors[accessorIndex] as Map<String, dynamic>;
+    final Map<String, dynamic> acc =
+        accessors[accessorIndex] as Map<String, dynamic>;
     final int compType = acc['componentType'] as int;
     final int size = _componentSize[compType] ?? 0;
-    if (size == 0) throw GlbException('$name: bad index componentType $compType');
-
+    if (size == 0) {
+      throw GlbException('$name: bad index componentType $compType');
+    }
     final int count = acc['count'] as int;
     final Uint32List out = Uint32List(count);
 
     final int? viewIndex = acc['bufferView'] as int?;
-    if (viewIndex == null) return out;
-    if (bin == null) throw GlbException('$name: indices reference a missing BIN chunk');
-
+    if (viewIndex == null) {
+      return out;
+    }
+    if (bin == null) {
+      throw GlbException('$name: indices reference a missing BIN chunk');
+    }
     final Map<String, dynamic> view = views[viewIndex] as Map<String, dynamic>;
-    final int start = ((view['byteOffset'] as int?) ?? 0) + ((acc['byteOffset'] as int?) ?? 0);
+    final int start =
+        ((view['byteOffset'] as int?) ?? 0) +
+        ((acc['byteOffset'] as int?) ?? 0);
     final int stride = (view['byteStride'] as int?) ?? size;
     final ByteData bd = ByteData.sublistView(bin);
 
@@ -335,14 +415,17 @@ class GlbLoader {
 
   // ------------------------------------------------------------- material
   static int _materialColor(Map<String, dynamic> mat) {
-    final Map<String, dynamic>? pbr = mat['pbrMetallicRoughness'] as Map<String, dynamic>?;
+    final Map<String, dynamic>? pbr =
+        mat['pbrMetallicRoughness'] as Map<String, dynamic>?;
     final List<dynamic>? f = pbr?['baseColorFactor'] as List<dynamic>?;
     double r = 0.8, g = 0.8, b = 0.8, a = 1.0;
     if (f != null && f.length >= 3) {
       r = (f[0] as num).toDouble();
       g = (f[1] as num).toDouble();
       b = (f[2] as num).toDouble();
-      if (f.length >= 4) a = (f[3] as num).toDouble();
+      if (f.length >= 4) {
+        a = (f[3] as num).toDouble();
+      }
     }
     // glTF baseColorFactor is linear; the renderer works in display space.
     return ((a * 255).round().clamp(0, 255) << 24) |
@@ -352,9 +435,15 @@ class GlbLoader {
   }
 
   static int _linearToSrgb(double c) {
-    if (c <= 0) return 0;
-    if (c >= 1) return 255;
-    final double s = c <= 0.0031308 ? c * 12.92 : 1.055 * math.pow(c, 1 / 2.4) - 0.055;
+    if (c <= 0) {
+      return 0;
+    }
+    if (c >= 1) {
+      return 255;
+    }
+    final double s = c <= 0.0031308
+        ? c * 12.92
+        : 1.055 * math.pow(c, 1 / 2.4) - 0.055;
     return (s * 255.0).round().clamp(0, 255);
   }
 }
