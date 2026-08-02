@@ -1,0 +1,635 @@
+[
+  {
+    "slug": "cannon_barrel",
+    "object": "cannon_barrel",
+    "path": "assets/models/cannon_barrel.glb",
+    "tris": 764,
+    "materials": 5,
+    "collider": "box",
+    "purpose": "Cannon barrel. Recoils on fire and rotates to aim.",
+    "size": [
+      0.4612,
+      0.2249,
+      0.1943
+    ],
+    "bytes": 12296,
+    "pivot": "trunnion (bbox centre)",
+    "forward": "+X"
+  },
+  {
+    "slug": "cannon_carriage",
+    "object": "cannon_carriage",
+    "path": "assets/models/cannon_carriage.glb",
+    "tris": 224,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Cannon cradle and axle. Static body the barrel mounts to.",
+    "size": [
+      0.39,
+      0.1196,
+      0.24
+    ],
+    "bytes": 4360,
+    "forward": "+X"
+  },
+  {
+    "slug": "cannon_wheel",
+    "object": "cannon_wheel",
+    "path": "assets/models/cannon_wheel.glb",
+    "tris": 252,
+    "materials": 3,
+    "collider": "cylinder",
+    "purpose": "Cannon wheel. Instanced twice, spins about local Z.",
+    "size": [
+      0.2122,
+      0.2122,
+      0.074
+    ],
+    "bytes": 5132,
+    "spin_axis": "z"
+  },
+  {
+    "slug": "cannonball",
+    "object": "cannonball",
+    "path": "assets/models/cannonball.glb",
+    "tris": 80,
+    "materials": 1,
+    "collider": "sphere",
+    "purpose": "Primary projectile fired by the cannon. Sphere collider.",
+    "size": [
+      0.1427,
+      0.15,
+      0.15
+    ],
+    "bytes": 2068,
+    "radius": 0.0738
+  },
+  {
+    "slug": "ball_heavy",
+    "object": "ball_heavy",
+    "path": "assets/models/ball_heavy.glb",
+    "tris": 80,
+    "materials": 1,
+    "collider": "sphere",
+    "purpose": "Heavy ball. Higher mass, used to break barriers.",
+    "size": [
+      0.1864,
+      0.196,
+      0.196
+    ],
+    "bytes": 2072,
+    "radius": 0.0964
+  },
+  {
+    "slug": "ball_small",
+    "object": "ball_small",
+    "path": "assets/models/ball_small.glb",
+    "tris": 80,
+    "materials": 1,
+    "collider": "sphere",
+    "purpose": "Light ball for tight tracks and pinball-style bounces.",
+    "size": [
+      0.0913,
+      0.096,
+      0.096
+    ],
+    "bytes": 2068,
+    "radius": 0.0472
+  },
+  {
+    "slug": "ball_crystal",
+    "object": "ball_crystal",
+    "path": "assets/models/ball_crystal.glb",
+    "tris": 20,
+    "materials": 1,
+    "collider": "sphere",
+    "purpose": "Faceted crystal ball. Deliberately coarse - reads as cut crystal.",
+    "size": [
+      0.1288,
+      0.144,
+      0.1225
+    ],
+    "bytes": 1352,
+    "radius": 0.0659
+  },
+  {
+    "slug": "domino_red",
+    "object": "domino_red",
+    "path": "assets/models/domino_red.glb",
+    "tris": 596,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Standard domino, red.",
+    "size": [
+      0.083,
+      0.42,
+      0.2
+    ],
+    "bytes": 8792,
+    "fall_axis": "+X"
+  },
+  {
+    "slug": "domino_blue",
+    "object": "domino_blue",
+    "path": "assets/models/domino_blue.glb",
+    "tris": 596,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Standard domino, blue.",
+    "size": [
+      0.083,
+      0.42,
+      0.2
+    ],
+    "bytes": 8792,
+    "fall_axis": "+X"
+  },
+  {
+    "slug": "domino_yellow",
+    "object": "domino_yellow",
+    "path": "assets/models/domino_yellow.glb",
+    "tris": 596,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Standard domino, yellow.",
+    "size": [
+      0.083,
+      0.42,
+      0.2
+    ],
+    "bytes": 8800,
+    "fall_axis": "+X"
+  },
+  {
+    "slug": "domino_green",
+    "object": "domino_green",
+    "path": "assets/models/domino_green.glb",
+    "tris": 596,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Standard domino, green.",
+    "size": [
+      0.083,
+      0.42,
+      0.2
+    ],
+    "bytes": 8796,
+    "fall_axis": "+X"
+  },
+  {
+    "slug": "domino_tall",
+    "object": "domino_tall",
+    "path": "assets/models/domino_tall.glb",
+    "tris": 780,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Tall domino. Longer reach, slower topple.",
+    "size": [
+      0.083,
+      0.62,
+      0.2
+    ],
+    "bytes": 11048,
+    "fall_axis": "+X"
+  },
+  {
+    "slug": "domino_wide",
+    "object": "domino_wide",
+    "path": "assets/models/domino_wide.glb",
+    "tris": 596,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Wide domino. Can push two neighbours at once.",
+    "size": [
+      0.083,
+      0.42,
+      0.32
+    ],
+    "bytes": 8792,
+    "fall_axis": "+X"
+  },
+  {
+    "slug": "domino_heavy",
+    "object": "domino_heavy",
+    "path": "assets/models/domino_heavy.glb",
+    "tris": 412,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Weighted domino. High mass, needs a strong hit.",
+    "size": [
+      0.128,
+      0.44,
+      0.24
+    ],
+    "bytes": 6540,
+    "fall_axis": "+X"
+  },
+  {
+    "slug": "domino_split",
+    "object": "domino_split",
+    "path": "assets/models/domino_split.glb",
+    "tris": 412,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Split domino. Seeds two branches of a chain.",
+    "size": [
+      0.078,
+      0.4,
+      0.3
+    ],
+    "bytes": 6536,
+    "fall_axis": "+X"
+  },
+  {
+    "slug": "domino_curved",
+    "object": "domino_curved",
+    "path": "assets/models/domino_curved.glb",
+    "tris": 88,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Curved-chain domino. Angled face turns a run by ~20 degrees.",
+    "size": [
+      0.075,
+      0.4283,
+      0.3526
+    ],
+    "bytes": 2196
+  },
+  {
+    "slug": "domino_bridge",
+    "object": "domino_bridge",
+    "path": "assets/models/domino_bridge.glb",
+    "tris": 132,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Bridge piece a domino run crosses.",
+    "size": [
+      0.46,
+      0.2025,
+      0.2
+    ],
+    "bytes": 2744
+  },
+  {
+    "slug": "toy_car_body",
+    "object": "toy_car_body",
+    "path": "assets/models/toy_car_body.glb",
+    "tris": 536,
+    "materials": 4,
+    "collider": "box",
+    "purpose": "Yellow toy car body. Rolls down ramps, presses buttons.",
+    "size": [
+      0.387,
+      0.194,
+      0.205
+    ],
+    "bytes": 9060,
+    "forward": "+X",
+    "wheel_offsets": [
+      [
+        0.105,
+        -0.052,
+        0.105
+      ],
+      [
+        0.105,
+        -0.052,
+        -0.105
+      ],
+      [
+        -0.105,
+        -0.052,
+        0.105
+      ],
+      [
+        -0.105,
+        -0.052,
+        -0.105
+      ]
+    ]
+  },
+  {
+    "slug": "toy_car_wheel",
+    "object": "toy_car_wheel",
+    "path": "assets/models/toy_car_wheel.glb",
+    "tris": 208,
+    "materials": 2,
+    "collider": "cylinder",
+    "purpose": "Toy car wheel. Instanced four times, spins about local Z.",
+    "size": [
+      0.1103,
+      0.1135,
+      0.048
+    ],
+    "bytes": 4104,
+    "spin_axis": "z",
+    "radius": 0.058
+  },
+  {
+    "slug": "block_red",
+    "object": "block_red",
+    "path": "assets/models/block_red.glb",
+    "tris": 396,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Stackable building block, red.",
+    "size": [
+      0.264,
+      0.26,
+      0.264
+    ],
+    "bytes": 6436
+  },
+  {
+    "slug": "block_blue",
+    "object": "block_blue",
+    "path": "assets/models/block_blue.glb",
+    "tris": 396,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Stackable building block, blue.",
+    "size": [
+      0.264,
+      0.26,
+      0.264
+    ],
+    "bytes": 6440
+  },
+  {
+    "slug": "block_green",
+    "object": "block_green",
+    "path": "assets/models/block_green.glb",
+    "tris": 396,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Stackable building block, green.",
+    "size": [
+      0.264,
+      0.26,
+      0.264
+    ],
+    "bytes": 6440
+  },
+  {
+    "slug": "block_yellow",
+    "object": "block_yellow",
+    "path": "assets/models/block_yellow.glb",
+    "tris": 396,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Stackable building block, yellow.",
+    "size": [
+      0.264,
+      0.26,
+      0.264
+    ],
+    "bytes": 6444
+  },
+  {
+    "slug": "cube_red",
+    "object": "cube_red",
+    "path": "assets/models/cube_red.glb",
+    "tris": 108,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Plain stackable cube, red.",
+    "size": [
+      0.26,
+      0.26,
+      0.26
+    ],
+    "bytes": 2400
+  },
+  {
+    "slug": "cube_blue",
+    "object": "cube_blue",
+    "path": "assets/models/cube_blue.glb",
+    "tris": 108,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Plain stackable cube, blue.",
+    "size": [
+      0.26,
+      0.26,
+      0.26
+    ],
+    "bytes": 2404
+  },
+  {
+    "slug": "cube_yellow",
+    "object": "cube_yellow",
+    "path": "assets/models/cube_yellow.glb",
+    "tris": 108,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Plain stackable cube, yellow.",
+    "size": [
+      0.26,
+      0.26,
+      0.26
+    ],
+    "bytes": 2408
+  },
+  {
+    "slug": "cube_green",
+    "object": "cube_green",
+    "path": "assets/models/cube_green.glb",
+    "tris": 108,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Plain stackable cube, green.",
+    "size": [
+      0.26,
+      0.26,
+      0.26
+    ],
+    "bytes": 2404
+  },
+  {
+    "slug": "block_roof",
+    "object": "block_roof",
+    "path": "assets/models/block_roof.glb",
+    "tris": 132,
+    "materials": 2,
+    "collider": "box",
+    "purpose": "Green roof cap that tops a block tower.",
+    "size": [
+      0.3,
+      0.1505,
+      0.3
+    ],
+    "bytes": 3208
+  },
+  {
+    "slug": "block_tower_section",
+    "object": "block_tower_section",
+    "path": "assets/models/block_tower_section.glb",
+    "tris": 132,
+    "materials": 3,
+    "collider": "box",
+    "purpose": "Pre-stacked three-high tower section for large set pieces.",
+    "size": [
+      0.26,
+      0.8,
+      0.26
+    ],
+    "bytes": 3680
+  },
+  {
+    "slug": "capsule_yellow",
+    "object": "capsule_yellow",
+    "path": "assets/models/capsule_yellow.glb",
+    "tris": 68,
+    "materials": 1,
+    "collider": "capsule",
+    "purpose": "Celebration capsule. Pooled, spawned on level complete.",
+    "size": [
+      0.072,
+      0.142,
+      0.072
+    ],
+    "bytes": 1984,
+    "radius": 0.036
+  },
+  {
+    "slug": "capsule_green",
+    "object": "capsule_green",
+    "path": "assets/models/capsule_green.glb",
+    "tris": 68,
+    "materials": 1,
+    "collider": "capsule",
+    "purpose": "Celebration capsule. Pooled, spawned on level complete.",
+    "size": [
+      0.072,
+      0.142,
+      0.072
+    ],
+    "bytes": 1980,
+    "radius": 0.036
+  },
+  {
+    "slug": "capsule_blue",
+    "object": "capsule_blue",
+    "path": "assets/models/capsule_blue.glb",
+    "tris": 68,
+    "materials": 1,
+    "collider": "capsule",
+    "purpose": "Celebration capsule. Pooled, spawned on level complete.",
+    "size": [
+      0.072,
+      0.142,
+      0.072
+    ],
+    "bytes": 1980,
+    "radius": 0.036
+  },
+  {
+    "slug": "capsule_red",
+    "object": "capsule_red",
+    "path": "assets/models/capsule_red.glb",
+    "tris": 68,
+    "materials": 1,
+    "collider": "capsule",
+    "purpose": "Celebration capsule. Pooled, spawned on level complete.",
+    "size": [
+      0.072,
+      0.142,
+      0.072
+    ],
+    "bytes": 1976,
+    "radius": 0.036
+  },
+  {
+    "slug": "capsule_orange",
+    "object": "capsule_orange",
+    "path": "assets/models/capsule_orange.glb",
+    "tris": 68,
+    "materials": 1,
+    "collider": "capsule",
+    "purpose": "Celebration capsule. Pooled, spawned on level complete.",
+    "size": [
+      0.072,
+      0.142,
+      0.072
+    ],
+    "bytes": 1984,
+    "radius": 0.036
+  },
+  {
+    "slug": "capsule_purple",
+    "object": "capsule_purple",
+    "path": "assets/models/capsule_purple.glb",
+    "tris": 68,
+    "materials": 1,
+    "collider": "capsule",
+    "purpose": "Celebration capsule. Pooled, spawned on level complete.",
+    "size": [
+      0.072,
+      0.142,
+      0.072
+    ],
+    "bytes": 1984,
+    "radius": 0.036
+  },
+  {
+    "slug": "capsule_duo",
+    "object": "capsule_duo",
+    "path": "assets/models/capsule_duo.glb",
+    "tris": 96,
+    "materials": 2,
+    "collider": "capsule",
+    "purpose": "Two-tone celebration capsule.",
+    "size": [
+      0.072,
+      0.142,
+      0.072
+    ],
+    "bytes": 2800,
+    "radius": 0.036
+  },
+  {
+    "slug": "star",
+    "object": "star",
+    "path": "assets/models/star.glb",
+    "tris": 336,
+    "materials": 1,
+    "collider": "box",
+    "purpose": "Star reward piece. Used in HUD bursts and the results screen.",
+    "size": [
+      0.1647,
+      0.02,
+      0.1566
+    ],
+    "bytes": 5256
+  },
+  {
+    "slug": "confetti",
+    "object": "confetti",
+    "path": "assets/models/confetti.glb",
+    "tris": 44,
+    "materials": 1,
+    "collider": "none",
+    "purpose": "Confetti strip. Recoloured per instance from the palette.",
+    "size": [
+      0.048,
+      0.004,
+      0.014
+    ],
+    "bytes": 1560
+  },
+  {
+    "slug": "coin",
+    "object": "coin",
+    "path": "assets/models/coin.glb",
+    "tris": 184,
+    "materials": 2,
+    "collider": "cylinder",
+    "purpose": "Coin pickup and reward piece.",
+    "size": [
+      0.104,
+      0.019,
+      0.104
+    ],
+    "bytes": 3788
+  }
+]
