@@ -242,7 +242,6 @@ class ProceduralLevels {
     double aimDeg,
     double power,
   ) {
-    final double a = aimDeg * math.pi / 180.0;
     return <ObjectSpec>[
       ObjectSpec(
         id: '${id}_carriage',
@@ -271,7 +270,12 @@ class ProceduralLevels {
           type: 'cannon',
           params: <String, dynamic>{
             'power': power,
-            'aim': <double>[math.cos(a), math.sin(a), 0],
+            'aimDeg': aimDeg,
+            'facing': 1.0,
+            'sweep': true,
+            'sweepMin': math.max(-4.0, aimDeg - 15.0),
+            'sweepMax': aimDeg + 15.0,
+            'sweepSpeed': 19.0,
             'ammo': '${id}_ball',
             'muzzle': <double>[0.245, 0.02, 0],
             'intended': true,

@@ -268,6 +268,129 @@ class FxSystem {
     }
   }
 
+  // ------------------------------------------------------------------ guides
+  final Paint _guide = Paint()..isAntiAlias = true;
+
+  /// Projects a world point to screen. Returns null if it is behind the eye.
+  static Offset? _project(
+    Float64List vp,
+    Vector3 p,
+    double halfW,
+    double halfH,
+  ) {
+    final double cw = vp[3] * p.x + vp[7] * p.y + vp[11] * p.z + vp[15];
+    if (cw < 0.05) return null;
+    final double cx = vp[0] * p.x + vp[4] * p.y + vp[8] * p.z + vp[12];
+    final double cy = vp[1] * p.x + vp[5] * p.y + vp[9] * p.z + vp[13];
+    final double inv = 1.0 / cw;
+    return Offset(halfW + cx * inv * halfW, halfH - cy * inv * halfH);
+  }
+
+  /// Dotted trajectory showing exactly where a shot will go.
+  ///
+  /// Drawn as discrete dots rather than a line on purpose: dots read as a
+  /// *prediction* rather than a wall, they stay legible over any colour, and
+  /// their spacing communicates speed — bunched at the apex, stretched on the
+  /// way down.
+  void drawAimArc(
+    ui.Canvas canvas,
+    ui.Size size,
+    OrbitCamera camera,
+    List<Vector3> points,
+    double time, {
+    double accuracy = 1.0,
+  }) {
+    if (points.length < 2) return;
+    // Warms from slate to green as the barrel swings onto the line the level
+    // was built around, so a good shot is readable before committing to it.
+    final Color tint = Color.lerp(Toy.inkStrong, Toy.green, accuracy)!;
+    final Float64List vp = camera.viewProj.storage;
+    final double halfW = size.width * 0.5;
+    final double halfH = size.height * 0.5;
+
+    // A slow crawl along the arc so it reads as live rather than painted on.
+    final double phase = (time * 1.6) % 1.0;
+
+    for (int i = 1; i < points.length; i++) {
+      final Offset? s = _project(vp, points[i], halfW, halfH);
+      if (s == null) continue;
+
+      final double along = i / (points.length - 1);
+      final double fade = (1.0 - along * 0.55).clamp(0.0, 1.0);
+      final double pulse =
+          0.55 + 0.45 * math.sin((along * 7.0 - phase * 6.283) * 1.0);
+
+      _guide.color = tint.withValues(
+        alpha: (0.26 + 0.22 * accuracy) * fade * pulse,
+      );
+      canvas.drawCircle(s, 3.4 * fade + 1.2, _guide);
+    }
+
+    // A solid marker on the landing point tells the player what gets hit.
+    final Offset? end = _project(vp, points.last, halfW, halfH);
+    if (end != null) {
+      final double r = 9 + math.sin(time * 4.2) * 2.0 + accuracy * 3.0;
+      _guide
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.6 + accuracy * 1.4
+        ..color = tint.withValues(alpha: 0.45 + 0.35 * accuracy);
+      canvas.drawCircle(end, r, _guide);
+      _guide.style = PaintingStyle.fill;
+    }
+  }
+
+  /// Pulsing ring on the ground under each object the player may tap.
+  ///
+  /// The 3D highlight alone is ambiguous on a white set — a brighter object
+  /// could just be catching the light. A ring on the floor cannot be mistaken
+  /// for anything but an affordance.
+  void drawStarterRings(
+    ui.Canvas canvas,
+    ui.Size size,
+    OrbitCamera camera,
+    List<Vector3> groundPoints,
+    double time,
+  ) {
+    if (groundPoints.isEmpty) return;
+    final Float64List vp = camera.viewProj.storage;
+    final double halfW = size.width * 0.5;
+    final double halfH = size.height * 0.5;
+
+    for (final Vector3 g in groundPoints) {
+      final Offset? c = _project(vp, g, halfW, halfH);
+      if (c == null) continue;
+      // Sample a second point one ring-radius away in world space so the ring
+      // scales with perspective instead of being a fixed pixel size.
+      final Offset? edge = _project(
+        vp,
+        Vector3(g.x + 0.26, g.y, g.z),
+        halfW,
+        halfH,
+      );
+      if (edge == null) continue;
+      final double rx = (edge - c).distance;
+      if (rx < 2 || rx > 400) continue;
+
+      for (int k = 0; k < 2; k++) {
+        final double t = ((time * 0.85) + k * 0.5) % 1.0;
+        final double grow = 0.55 + t * 0.65;
+        _guide
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 3.0 * (1.0 - t)
+          ..color = Toy.blue.withValues(alpha: 0.42 * (1.0 - t));
+        canvas.drawOval(
+          Rect.fromCenter(
+            center: c,
+            width: rx * 2 * grow,
+            height: rx * 0.92 * grow,
+          ),
+          _guide,
+        );
+      }
+      _guide.style = PaintingStyle.fill;
+    }
+  }
+
   // ------------------------------------------------------------------- draw
   final Paint _paint = Paint()..isAntiAlias = true;
 

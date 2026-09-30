@@ -16,12 +16,44 @@ the game ever shows is "Tap to start", and it disappears on first tap.
 
 ---
 
+## The one decision
+
+The cannon **sweeps its elevation** up and down, and fires wherever it is
+pointing when you tap. That single fact is the game.
+
+An earlier build fired at a fixed angle, and it was not a game — tapping did
+the same thing whenever you pressed it, so the tap carried no information. The
+sweep turns one tap into a judgement: read the arc, wait for the angle, commit.
+It costs nothing to learn because the barrel visibly points where the shot will
+go, and a dotted trajectory shows the landing spot live.
+
+Two rules keep it a puzzle rather than a reflex test:
+
+- **The sweep decides how *good* the shot is, never whether the level is
+  possible.** Every angle in the range must still complete the level.
+  `test/aim_test.dart` samples the full sweep on every level and asserts it.
+- **The range is asymmetric** — more room below the intended angle than above.
+  The two directions fail differently: a low shot still hits the first domino,
+  just further down its face, and the chain survives; a high shot sails over it
+  and nothing starts. The forgiving side gets the room.
+
+The arc warms from slate to green as the barrel swings onto the intended line,
+so "this is a good shot" is readable before committing to it.
+
+---
+
 ## The loop
 
-1. **Inspect.** The camera frames the whole set and drifts a few degrees so the
-   depth reads. The player can drag to look around within clamped limits.
-   Tappable starters pulse.
-2. **Tap.** One object. The reaction begins.
+1. **Fly in.** The camera opens high over the whole set, sweeps down to sit
+   just behind the cannon looking along the chain, then eases out to the
+   playing framing. Three beats — *here is the puzzle*, *here is the thing you
+   fire and the way it points*, *here is where you play from* — answer a new
+   player's questions without a line of text. Any tap skips it.
+2. **Aim.** The barrel sweeps. The dotted arc tracks it. The player can drag to
+   look around within clamped limits.
+3. **Tap.** Anywhere, when there is one starter — the decision is *when*, not
+   *what*, and hunting for a small cannon with a fingertip adds difficulty in
+   the one place the game should have none.
 3. **Watch.** The camera follows the live stage, punches in on impacts, and
    drops into brief slow motion for the final hit.
 4. **Result.** Stars, chain length, multiplier, score, coins, bonus objectives.

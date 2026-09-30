@@ -6,7 +6,7 @@ import 'data/save_service.dart';
 import 'data/settings.dart';
 import 'game/level/level_repository.dart';
 import 'game/ui/design.dart';
-import 'game/ui/home_screen.dart';
+import 'game/ui/intro_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +41,7 @@ class ChainReactionCityApp extends StatelessWidget {
       title: 'Chain Reaction City',
       debugShowCheckedModeBanner: false,
       theme: D.theme(),
-      home: const HomeScreen(),
+      home: const IntroScreen(),
     );
   }
 }

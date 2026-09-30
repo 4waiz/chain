@@ -101,18 +101,62 @@ abstract class Device {
 /// The projectile is authored into the level as a hidden object rather than
 /// spawned, so firing allocates nothing and a retry restores it exactly.
 class CannonDevice extends Device {
-  CannonDevice(super.owner, super.spec);
+  CannonDevice(super.owner, super.spec) {
+    // Start on the authored angle. A headless run that never sweeps — every
+    // level test — then fires exactly the shot the level was built around,
+    // which is what keeps those runs deterministic.
+    angleDeg = restAngle;
+  }
 
   bool fired = false;
   double _recoil = 0.0;
 
+  /// Live elevation in degrees. The barrel sweeps between [sweepMin] and
+  /// [sweepMax] until the player taps, and fires at whatever it reads then.
+  ///
+  /// This is the whole game's decision. A cannon that always fires at a fixed
+  /// angle makes "tap" a button press with no content — the outcome is
+  /// identical whenever you press it. Sweeping the barrel turns the single
+  /// tap into a judgement: read the arc, wait for the angle, commit. It costs
+  /// the player nothing to understand because the barrel visibly points where
+  /// the shot will go.
+  double angleDeg = 0.0;
+  double _sweepDir = 1.0;
+  bool _sweepStarted = false;
+
+  double get power => spec.number('power', 4.2);
+  String get ammoId => spec.text('ammo') ?? '';
+  Vector3 get muzzle => spec.vector('muzzle', Vector3(0.26, 0.04, 0));
+
+  /// Which way the cannon faces: +1 for +X, -1 for -X.
+  double get facing => spec.number('facing', 1.0);
+
+  bool get sweeps => spec.flag('sweep', fallback: true);
+  double get sweepMin => spec.number('sweepMin', 2.0);
+  double get sweepMax => spec.number('sweepMax', 34.0);
+
+  /// Degrees per second. Slow enough to aim, fast enough to feel live.
+  double get sweepSpeed => spec.number('sweepSpeed', 19.0);
+
+  /// The elevation this level was authored around, used as the starting
+  /// angle and as the fallback when sweeping is off.
+  double get restAngle => spec.number('aimDeg', 13.0);
+
   @override
   bool get isStartable => true;
 
-  double get power => spec.number('power', 4.2);
-  Vector3 get aim => spec.vector('aim', Vector3(1, 0.30, 0));
-  String get ammoId => spec.text('ammo') ?? '';
-  Vector3 get muzzle => spec.vector('muzzle', Vector3(0.26, 0.04, 0));
+  /// Current aim as a unit direction, derived from the live elevation.
+  Vector3 get aimNow {
+    final double a = angleDeg * math.pi / 180.0;
+    return Vector3(math.cos(a) * facing, math.sin(a), 0)..normalize();
+  }
+
+  /// How close the barrel is to the authored angle, 0..1. Drives the aim
+  /// guide's colour so "good shot" is legible before committing.
+  double get accuracy {
+    final double span = math.max(1.0, sweepMax - sweepMin);
+    return (1.0 - (angleDeg - restAngle).abs() / span).clamp(0.0, 1.0);
+  }
 
   @override
   void activate(DeviceHost host) {
@@ -125,7 +169,8 @@ class CannonDevice extends Device {
     final Body? self = owner.body;
     if (ammo == null || b == null) return;
 
-    final Vector3 dir = aim.normalized();
+    // Fire along wherever the barrel is pointing at this instant.
+    final Vector3 dir = aimNow;
 
     // Muzzle offset is authored in the cannon's local frame so an aimed or
     // tilted cannon still spits the ball out of the barrel, not its side.
@@ -152,19 +197,65 @@ class CannonDevice extends Device {
     host.emit(GameSignal(SignalKind.cannonFire, at: world, objectId: owner.id));
   }
 
+  /// Sweeps the barrel. Called every frame while the player is still deciding.
+  ///
+  /// This runs outside the fixed physics step on purpose: it is an input
+  /// affordance, not simulation, and it must stop the instant the shot is
+  /// taken so the fired angle is exactly the one the player saw.
+  void sweep(double dt) {
+    if (fired) return;
+    if (!_sweepStarted) {
+      _sweepStarted = true;
+      angleDeg = restAngle;
+    }
+    if (!sweeps) return;
+
+    angleDeg += _sweepDir * sweepSpeed * dt;
+    if (angleDeg >= sweepMax) {
+      angleDeg = sweepMax;
+      _sweepDir = -1.0;
+    } else if (angleDeg <= sweepMin) {
+      angleDeg = sweepMin;
+      _sweepDir = 1.0;
+    }
+    _applyBarrelPose();
+  }
+
+  /// Points the barrel body at the current elevation. The body is static, so
+  /// this is a pose change rather than a simulated motion.
+  void _applyBarrelPose() {
+    final Body? b = owner.body;
+    if (b == null) return;
+    final double signed = angleDeg * facing;
+    b.orientation.setFrom(
+      Quaternion.axisAngle(Vector3(0, 0, 1), signed * math.pi / 180.0),
+    );
+    b.refresh();
+
+    final ri = owner.instance;
+    if (ri != null) {
+      ri.transform.setFromTranslationRotation(b.position, b.orientation);
+    }
+  }
+
   @override
   void update(DeviceHost host, double dt) {
     if (_recoil <= 0) return;
     _recoil = math.max(0.0, _recoil - dt * 4.0);
     // Barrel slides back on fire and eases home — purely visual.
-    final double kick = _recoil * _recoil * 0.085;
+    final double kick = _recoil * _recoil * 0.085 * facing;
     final ri = owner.instance;
     if (ri != null) {
-      ri.transform.setTranslationRaw(
-        owner.homePosition.x - kick,
-        owner.homePosition.y,
-        owner.homePosition.z,
-      );
+      ri.transform
+        ..setFromTranslationRotation(
+          owner.homePosition,
+          owner.body?.orientation ?? owner.homeOrientation,
+        )
+        ..setTranslationRaw(
+          owner.homePosition.x - kick,
+          owner.homePosition.y,
+          owner.homePosition.z,
+        );
     }
   }
 
@@ -172,6 +263,10 @@ class CannonDevice extends Device {
   void reset() {
     fired = false;
     _recoil = 0;
+    _sweepStarted = false;
+    _sweepDir = 1.0;
+    angleDeg = restAngle;
+    _applyBarrelPose();
   }
 }
 

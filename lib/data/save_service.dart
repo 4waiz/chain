@@ -87,6 +87,16 @@ class SaveService extends ChangeNotifier {
   int labBestChain = 0;
   bool labUnlocked = false;
 
+  /// First-run coaching. Shown once, then never again.
+  bool tutorialSeen = false;
+
+  Future<void> markTutorialSeen() async {
+    if (tutorialSeen) return;
+    tutorialSeen = true;
+    notifyListeners();
+    await save();
+  }
+
   int get totalStars =>
       levels.values.fold(0, (int a, LevelProgress b) => a + b.stars);
   int get levelsCompleted =>
@@ -153,6 +163,7 @@ class SaveService extends ChangeNotifier {
     labBestScore = (j['labScore'] as num?)?.toInt() ?? 0;
     labBestChain = (j['labChain'] as num?)?.toInt() ?? 0;
     labUnlocked = j['labUnlocked'] == true;
+    tutorialSeen = j['tutorial'] == true;
   }
 
   void _reset() {
@@ -165,6 +176,7 @@ class SaveService extends ChangeNotifier {
     labBestScore = 0;
     labBestChain = 0;
     labUnlocked = false;
+    tutorialSeen = false;
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -181,6 +193,7 @@ class SaveService extends ChangeNotifier {
     'labScore': labBestScore,
     'labChain': labBestChain,
     'labUnlocked': labUnlocked,
+    'tutorial': tutorialSeen,
   };
 
   Future<void> save() async {

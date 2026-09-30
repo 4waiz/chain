@@ -327,9 +327,9 @@ class CameraSpec {
   /// width.
   const CameraSpec({
     this.yaw = -0.86,
-    this.pitch = 0.50,
-    this.pad = 1.06,
-    this.verticalBias = 0.10,
+    this.pitch = 0.74,
+    this.pad = 1.02,
+    this.verticalBias = 0.0,
     this.fov = 0.75,
     this.orbit = 0.14,
   });

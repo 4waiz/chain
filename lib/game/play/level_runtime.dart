@@ -270,6 +270,75 @@ class LevelRuntime implements DeviceHost {
     return start(o.id);
   }
 
+  /// Ballistic preview of what a starter will do, in world space.
+  ///
+  /// This is the game's clearest teaching tool: before committing, the player
+  /// can see the exact arc the shot takes and which object it lands on. It is
+  /// a plain projectile integration with no collision — it stops at the first
+  /// thing the ray passes through — so it is cheap enough to recompute every
+  /// frame while the player looks around.
+  List<Vector3> previewArc(
+    String starterId, {
+    int steps = 46,
+    double dt = 0.045,
+  }) {
+    final LevelObject? o = _byId[starterId];
+    final Device? d = o?.device as Device?;
+    if (o == null || d is! CannonDevice) return const <Vector3>[];
+
+    final Body? self = o.body;
+    final Vector3 p = Vector3.copy(d.muzzle);
+    if (self != null) {
+      self.rotation.transform(p);
+      p.add(self.position);
+    } else {
+      p.add(o.homePosition);
+    }
+
+    final Vector3 v = d.aimNow..scale(d.power);
+    final List<Vector3> out = <Vector3>[Vector3.copy(p)];
+    final Vector3 hitTest = Vector3.zero();
+
+    for (int i = 0; i < steps; i++) {
+      v.y += spec.gravity * dt;
+      p.addScaled(v, dt);
+      out.add(Vector3.copy(p));
+
+      if (p.y <= 0.02) break;
+
+      // Stop at the first solid body the arc enters, so the preview ends on
+      // the object it is actually going to hit.
+      hitTest.setFrom(p);
+      bool blocked = false;
+      for (final LevelObject other in _objects) {
+        final Body? b = other.body;
+        if (b == null || !b.enabled || b.isSensor) continue;
+        if (other.id == starterId || other.id == d.ammoId) continue;
+        if (!b.movable && other.spec.model == null) continue;
+        if (_containsPoint(b, hitTest)) {
+          blocked = true;
+          break;
+        }
+      }
+      if (blocked) break;
+    }
+    return out;
+  }
+
+  static bool _containsPoint(Body b, Vector3 p) {
+    if (b.shape == ShapeKind.sphere) {
+      return (p - b.position).length2 <= b.radius * b.radius;
+    }
+    final Vector3 d = p - b.position;
+    final r = b.rotation.storage;
+    final double lx = d.x * r[0] + d.y * r[1] + d.z * r[2];
+    final double ly = d.x * r[3] + d.y * r[4] + d.z * r[5];
+    final double lz = d.x * r[6] + d.y * r[7] + d.z * r[8];
+    return lx.abs() <= b.halfExtents.x &&
+        ly.abs() <= b.halfExtents.y &&
+        lz.abs() <= b.halfExtents.z;
+  }
+
   /// Begins the reaction from [id] without needing a ray. Used by tests and by
   /// the tutorial's auto-play.
   String? start(String id) {
@@ -303,6 +372,12 @@ class LevelRuntime implements DeviceHost {
     signals.clear();
 
     if (phase == RunPhase.inspecting) {
+      // Aiming happens before the simulation starts, so the shot the player
+      // takes is exactly the one they were looking at.
+      for (final LevelObject o in _objects) {
+        final Device? d = o.device as Device?;
+        if (d is CannonDevice) d.sweep(dt);
+      }
       _pulseStarters(dt);
       _syncInstances();
       return;

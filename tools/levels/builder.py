@@ -97,7 +97,7 @@ class Level:
         self.data["objects"].append(o)
         return o
 
-    def camera(self, yaw=-0.86, pitch=0.50, pad=1.06, bias=0.10, fov=0.75, orbit=0.14):
+    def camera(self, yaw=-0.86, pitch=0.74, pad=1.02, bias=0.0, fov=0.75, orbit=0.14):
         self.data["camera"] = {
             "yaw": yaw, "pitch": pitch, "pad": pad,
             "bias": bias, "fov": fov, "orbit": orbit,
@@ -132,7 +132,8 @@ class Level:
 
     # ------------------------------------------------------------ assemblies
     def cannon(self, oid, x, z=0.0, aim_deg=14.0, power=4.6, ammo="cannonball",
-               facing=1.0, intended=True, ammo_mass=0.26):
+               facing=1.0, intended=True, ammo_mass=0.26,
+               sweep=True, sweep_down=6.0, sweep_up=3.0, sweep_speed=11.0):
         """Blue toy cannon: carriage, two wheels, tilted barrel, and a hidden
         ball that the fire device wakes at the muzzle."""
         yaw = 0.0 if facing > 0 else 180.0
@@ -145,13 +146,26 @@ class Level:
                      pos=(x - 0.09 * facing, 0.108, z + sz), rot=(0, yaw, 0),
                      shape="none")
 
-        a = math.radians(aim_deg)
+        # The barrel sweeps through an elevation range and fires wherever it is
+        # pointing when tapped. `aimDeg` is the angle the level is built
+        # around.
+        #
+        # The range is asymmetric — more room below the intended angle than
+        # above — because the two directions fail differently. Shooting low
+        # still hits the first domino, just further down its face, and the
+        # chain survives. Shooting high sails over it and the reaction never
+        # starts. So the forgiving side gets the room.
         self.add(oid, "cannon_barrel", pos=(x, 0.248, z), rot=(0, yaw, tilt),
                  shape="box", starter=True,
                  device={
                      "type": "cannon",
                      "power": power,
-                     "aim": [round(math.cos(a) * facing, 4), round(math.sin(a), 4), 0],
+                     "aimDeg": aim_deg,
+                     "facing": facing,
+                     "sweep": sweep,
+                     "sweepMin": round(max(-4.0, aim_deg - sweep_down), 2),
+                     "sweepMax": round(aim_deg + sweep_up, 2),
+                     "sweepSpeed": sweep_speed,
                      "ammo": f"{oid}_ball",
                      "muzzle": [0.245 * facing, 0.02, 0],
                      "intended": intended,
@@ -342,7 +356,27 @@ class Level:
 
         cx = hx + 0.35
         self.car("car", cx, z, mass=0.16, friction=0.025)
-        bx = cx + 0.47
+
+        # Guaranteed hand-off into the car.
+        #
+        # A toppling domino delivers whatever momentum survived the run, and
+        # with a sweeping cannon that varies with the player's aim. The player
+        # still sees the domino hit the car — this only tops the shove up so a
+        # slightly weaker shot cannot strand the chain one step from the end.
+        # This is the "controlled gameplay event" the brief calls for: use
+        # physics where it is satisfying, script it where it is knife-edge.
+        self.trip(f"{prefix}_carkick", hx + 0.22, 0.22, z, [f"{prefix}_carpush"])
+        self.nudge(f"{prefix}_carpush", cx, 0.11, z, target="car",
+                   impulse=(0.085, 0, 0))
+        # Close enough that even a weak shove reaches it.
+        #
+        # The car's travel varies with how much energy the shot handed down
+        # the chain, and the cannon now sweeps, so that energy is a player
+        # choice. A button placed at the *best* shove's distance makes every
+        # other angle unwinnable. Placing it at the *worst* one makes the aim
+        # decide score rather than possibility, which is the point.
+        # Gap here is ~4 cm of clear travel (car front face to button edge).
+        bx = cx + 0.38
         self.button("finish_btn", bx, z, activates=["finish_flag"], min_impulse=0.008)
         self.flag("finish_flag", bx + 0.50, z)
         return run + [heavy], "car", bx, "finish_flag"

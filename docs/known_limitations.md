@@ -12,9 +12,9 @@ so that nothing here is mistaken for working.
 
 The brief asks for 50 handcrafted levels across five worlds. What exists:
 
-| World | Levels authored | Levels passing the automated completability test |
+| World | Levels authored | Completable at every aim angle |
 | --- | --- | --- |
-| 1 — Toy Street | 10 | 3 (`w1_l1`, `w1_l3`, `w1_l8`) |
+| 1 — Toy Street | 10 | 4 (`w1_l1`, `w1_l3`, `w1_l7`, `w1_l8`) |
 | 2 — Playroom Factory | 0 | – |
 | 3 — Mini Harbour | 0 | – |
 | 4 — Carnival Table | 0 | – |

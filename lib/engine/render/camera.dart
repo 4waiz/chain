@@ -187,10 +187,10 @@ class OrbitCamera {
     distance =
         (radius * 1.1) / math.max(0.05, math.sin(math.min(fovY, fovX) * 0.5));
 
-    for (int iter = 0; iter < 4; iter++) {
+    for (int iter = 0; iter < 6; iter++) {
       update(a);
-      double maxU = 1e-6;
-      double maxV = 1e-6;
+      double minU = 1e30, maxU = -1e30;
+      double minV = 1e30, maxV = -1e30;
       bool ok = true;
 
       for (int c = 0; c < 8; c++) {
@@ -203,9 +203,11 @@ class OrbitCamera {
           ok = false;
           break;
         }
-        final double u = (p.x / p.w).abs();
-        final double v = (p.y / p.w).abs();
+        final double u = p.x / p.w;
+        final double v = p.y / p.w;
+        if (u < minU) minU = u;
         if (u > maxU) maxU = u;
+        if (v < minV) minV = v;
         if (v > maxV) maxV = v;
       }
       if (!ok) {
@@ -213,9 +215,38 @@ class OrbitCamera {
         continue;
       }
 
+      // Re-centre before re-fitting.
+      //
+      // Fitting alone only guarantees the level *fits*; it says nothing about
+      // where it sits. A wide, shallow level viewed from a diagonal yaw
+      // projects to a box that is nowhere near the middle of the screen, which
+      // is why the set kept drifting into a corner. Shifting the look-at point
+      // by the projected offset — converted back into world units along the
+      // camera's own right/up axes — pins it dead centre.
+      final double cu = (minU + maxU) * 0.5;
+      final double cv = (minV + maxV) * 0.5;
+      if (cu.abs() > 0.002 || cv.abs() > 0.002) {
+        final double halfH = math.tan(fovY * 0.5) * distance;
+        final double halfW = halfH * a;
+
+        // Camera basis: right is perpendicular to the view in the horizontal
+        // plane, up is right x forward.
+        final Vector3 fwd = (target - _eye)..normalize();
+        final Vector3 right = fwd.cross(_worldUp)..normalize();
+        final Vector3 up = right.cross(fwd)..normalize();
+
+        target
+          ..addScaled(right, cu * halfW)
+          ..addScaled(up, cv * halfH);
+        update(a);
+      }
+
       // NDC extents are in [-1, 1]; scale distance by how far off we are.
-      final double scale = math.max(maxU, maxV) * pad;
-      if ((scale - 1.0).abs() < 0.004) break;
+      final double scale =
+          math.max((maxU - minU) * 0.5, (maxV - minV) * 0.5) * pad;
+      if ((scale - 1.0).abs() < 0.004 && cu.abs() < 0.01 && cv.abs() < 0.01) {
+        break;
+      }
       distance *= scale;
     }
     update(a);

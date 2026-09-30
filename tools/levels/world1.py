@@ -19,7 +19,7 @@ def level_1():
               hint="Tap the blue cannon. It is the only thing you can start.",
               teaches=["cannon", "dominoes", "car", "button"],
               par_chain=12, par_time=9.0)
-    L.camera(yaw=-0.86, pitch=0.48, pad=1.05, bias=0.06)
+    L.camera()
 
     run, car, bx, flag = L.classic_chain(x0=-1.62, count=5,
                                          colours=("blue", "yellow", "green", "red"))
@@ -28,8 +28,8 @@ def level_1():
     # A falling domino trips a hidden volume which pops the roof and frees the
     # star — a controlled hand-off, because a physical nudge across that gap
     # would be knife-edge.
-    L.tower("t", x=-0.34, z=0.52)
-    L.star("star1", -0.34, 1.10, 0.52)
+    L.tower("t", x=-0.34, z=0.86)
+    L.star("star1", -0.34, 1.10, 0.86)
     L.trip("tower_trip", -0.30, 0.22, 0.0, ["tower_push", "tower_shove"])
     L.nudge("tower_push", -0.34, 0.95, 0.52, target="troof", impulse=(0.0, 0.50, 0.14))
     L.nudge("tower_shove", -0.34, 0.68, 0.52, target="t2", impulse=(0.03, 0.10, 0.34))

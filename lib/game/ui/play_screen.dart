@@ -21,6 +21,7 @@ import '../play/level_runtime.dart';
 import '../play/scoring.dart';
 import 'design.dart';
 import 'result_sheets.dart';
+import 'tutorial.dart';
 
 /// The gameplay screen: one diorama, one tap, one reaction.
 class PlayScreen extends StatefulWidget {
@@ -131,13 +132,63 @@ class _PlayScreenState extends State<PlayScreen> with WidgetsBindingObserver {
     super.dispose();
   }
 
+  /// Seconds since the level finished loading, for pacing the coach marks.
+  double _sinceLoad = 0;
+
+  /// Live aim preview, recomputed while the player is deciding.
+  List<Vector3> _aimArc = const <Vector3>[];
+  List<Vector3> _starterGround = const <Vector3>[];
+  double _guideTime = 0;
+  bool _coachDismissed = false;
+
+  bool get _showCoach =>
+      !_coachDismissed &&
+      !SaveService.instance.tutorialSeen &&
+      widget.mode == PlayMode.campaign;
+
+  /// How close the barrel is to the level's intended line, 0..1.
+  double _aimAccuracy = 0;
+
+  /// Refreshes the on-screen guides. The arc is a plain ballistic integration
+  /// so it is cheap enough to redo every frame as the barrel sweeps.
+  void _refreshGuides(LevelRuntime rt) {
+    final List<LevelObject> starters = rt.starters;
+    _starterGround = <Vector3>[
+      for (final LevelObject s in starters)
+        if (s.body != null)
+          Vector3(s.body!.position.x, 0.01, s.body!.position.z),
+    ];
+    final Object? dev = starters.isEmpty ? null : starters.first.device;
+    _aimAccuracy = dev is CannonDevice ? dev.accuracy : 1.0;
+    _aimArc = starters.isEmpty
+        ? const <Vector3>[]
+        : rt.previewArc(starters.first.id);
+  }
+
   // ------------------------------------------------------------------ loop
   void _onFrame(double dt) {
     final LevelRuntime? rt = _rt;
     final CameraDirector? dir = _director;
     if (rt == null || dir == null || _paused) return;
 
+    _guideTime += dt;
     AudioService.instance.tick(dt);
+
+    // The opening fly-in runs before the simulation is allowed to start, so
+    // the player always sees the untouched set first.
+    if (dir.introActive) {
+      dir.update(dt, rt, _aspect);
+      if (!dir.introActive) _refreshGuides(rt);
+      setState(() {});
+      return;
+    }
+
+    if (rt.phase == RunPhase.inspecting) {
+      _sinceLoad += dt;
+      // Recomputed every frame: the barrel is sweeping, so the arc has to
+      // track it or the preview would be a lie.
+      _refreshGuides(rt);
+    }
 
     // The director owns time dilation, so the simulation and the effects all
     // slow together during the final-impact beat.
@@ -249,9 +300,25 @@ class _PlayScreenState extends State<PlayScreen> with WidgetsBindingObserver {
   }
 
   // ----------------------------------------------------------------- input
+  void _skipIntro() {
+    final CameraDirector? dir = _director;
+    final LevelRuntime? rt = _rt;
+    if (dir == null || rt == null || !dir.introActive) return;
+    dir.skipIntro();
+    _refreshGuides(rt);
+    setState(() {});
+  }
+
   void _onTap(Offset local, Size size) {
     final LevelRuntime? rt = _rt;
     if (rt == null || _paused) return;
+
+    // Any tap during the opening shot cuts it short, so a player who already
+    // knows the level never waits through it.
+    if (_director?.introActive ?? false) {
+      _skipIntro();
+      return;
+    }
 
     if (rt.phase != RunPhase.inspecting) return;
 
@@ -259,9 +326,20 @@ class _PlayScreenState extends State<PlayScreen> with WidgetsBindingObserver {
     final Vector3 d = Vector3.zero();
     _camera.screenRay(local.dx, local.dy, size.width, size.height, o, d);
 
-    final String? started = rt.tapStarter(o, d);
+    String? started = rt.tapStarter(o, d);
+
+    // With a single starter the decision is *when*, not *what* — so the whole
+    // screen fires it. Hunting for a small cannon with a fingertip adds
+    // difficulty in the one place the game should have none.
+    if (started == null && rt.starters.length == 1) {
+      started = rt.start(rt.starters.first.id);
+    }
+
     if (started != null) {
       AudioService.instance.haptic(HapticStrength.medium);
+      _aimArc = const <Vector3>[];
+      _starterGround = const <Vector3>[];
+      unawaited(SaveService.instance.markTutorialSeen());
       setState(() {});
     } else {
       AudioService.instance.uiTap();
@@ -277,7 +355,11 @@ class _PlayScreenState extends State<PlayScreen> with WidgetsBindingObserver {
     _resultShown = false;
     _resultAnim = 0;
     _shownMultiplier = 1.0;
+    _sinceLoad = 0;
+    // Retry goes straight back to the playable framing. Replaying the fly-in
+    // every attempt would fight the brief's under-two-second retry.
     _director?.establish(rt.bounds, _aspect);
+    _refreshGuides(rt);
     setState(() => _paused = false);
   }
 
@@ -345,7 +427,15 @@ class _PlayScreenState extends State<PlayScreen> with WidgetsBindingObserver {
                   builder: (BuildContext ctx, BoxConstraints c) {
                     if (!_framed && c.maxHeight > 0) {
                       _framed = true;
-                      _director!.establish(rt.bounds, c.maxWidth / c.maxHeight);
+                      final LevelObject? first = rt.starters.isEmpty
+                          ? null
+                          : rt.starters.first;
+                      _director!.startIntro(
+                        rt.bounds,
+                        first?.body?.position,
+                        c.maxWidth / c.maxHeight,
+                      );
+                      if (!_director!.introActive) _refreshGuides(rt);
                     }
                     return SceneView(
                       camera: _camera,
@@ -357,23 +447,62 @@ class _PlayScreenState extends State<PlayScreen> with WidgetsBindingObserver {
                       onPan: rt.phase == RunPhase.inspecting
                           ? (Offset d) => _director!.inspect(d.dx, d.dy)
                           : null,
-                      overlay: (ui.Canvas canvas, Size size) =>
-                          _fx.draw(canvas, size, _camera),
+                      overlay: (ui.Canvas canvas, Size size) {
+                        // Guides sit under the particles so a burst never
+                        // hides the arc.
+                        if (rt.phase == RunPhase.inspecting &&
+                            !_director!.introActive) {
+                          _fx.drawStarterRings(
+                            canvas,
+                            size,
+                            _camera,
+                            _starterGround,
+                            _guideTime,
+                          );
+                          _fx.drawAimArc(
+                            canvas,
+                            size,
+                            _camera,
+                            _aimArc,
+                            _guideTime,
+                            accuracy: _aimAccuracy,
+                          );
+                        }
+                        _fx.draw(canvas, size, _camera);
+                      },
                     );
                   },
                 ),
               ),
-              _Hud(
-                spec: spec,
-                rt: rt,
-                multiplier: _shownMultiplier,
-                onPause: () {
-                  AudioService.instance.uiTap();
-                  setState(() => _paused = true);
-                },
-                onRestart: _restart,
-              ),
-              if (rt.phase == RunPhase.inspecting) _TapPrompt(rt: rt),
+              // The HUD stays out of the way until the opening shot lands.
+              if (!_director!.introActive)
+                _Hud(
+                  spec: spec,
+                  rt: rt,
+                  multiplier: _shownMultiplier,
+                  onPause: () {
+                    AudioService.instance.uiTap();
+                    setState(() => _paused = true);
+                  },
+                  onRestart: _restart,
+                ),
+              if (_director!.introActive) _SkipIntro(onSkip: _skipIntro),
+              if (rt.phase == RunPhase.inspecting && !_director!.introActive)
+                _TapPrompt(rt: rt),
+              if (_showCoach && !_director!.introActive && !_paused)
+                CoachOverlay(
+                  step: CoachOverlay.stepFor(
+                    rt.phase,
+                    _sinceLoad,
+                    rt.tracker.chainLength,
+                  ),
+                  chainLength: rt.tracker.chainLength,
+                  onDismiss: () {
+                    AudioService.instance.uiTap();
+                    unawaited(SaveService.instance.markTutorialSeen());
+                    setState(() => _coachDismissed = true);
+                  },
+                ),
               if (_paused)
                 PauseSheet(
                   onResume: () {
@@ -525,6 +654,43 @@ class _Hud extends StatelessWidget {
   }
 }
 
+/// Corner affordance during the opening fly-in.
+class _SkipIntro extends StatelessWidget {
+  const _SkipIntro({required this.onSkip});
+  final VoidCallback onSkip;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      right: D.s4,
+      top: D.s3,
+      child: GestureDetector(
+        onTap: onSkip,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: D.s4, vertical: 9),
+          decoration: BoxDecoration(
+            color: Toy.white.withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(D.rPill),
+            boxShadow: D.chip,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('Skip', style: D.label(Toy.inkSoft)),
+              const SizedBox(width: 4),
+              const Icon(
+                Icons.fast_forward_rounded,
+                size: 17,
+                color: Toy.inkSoft,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 /// The only instruction the game ever gives, and it disappears on first tap.
 class _TapPrompt extends StatelessWidget {
   const _TapPrompt({required this.rt});
@@ -551,7 +717,7 @@ class _TapPrompt extends StatelessWidget {
               const Icon(Icons.touch_app_rounded, color: Toy.blue, size: 20),
               const SizedBox(width: D.s2),
               Text(
-                n > 1 ? 'Tap one to start' : 'Tap to start',
+                n > 1 ? 'Tap a starter to fire' : 'Tap to fire',
                 style: D.label(Toy.inkStrong),
               ),
             ],

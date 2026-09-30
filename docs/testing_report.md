@@ -3,10 +3,29 @@
 Generated from the actual runs at the end of the first implementation pass.
 Nothing here is projected or assumed.
 
-**Headline: 25 of 29 tests pass. 4 fail.** The failures are all in
+**Headline: 29 of 33 tests pass. 4 fail.** The failures are all in
 `campaign_test.dart` and all trace back to the same unfinished work — the
-campaign is 10 levels, not 50, and 7 of those 10 are not completable. See
+campaign is 10 levels, not 50, and 6 of those 10 are not completable. See
 `docs/known_limitations.md` §1.
+
+### `test/aim_test.dart` — 4/4 pass
+
+Guards the sweeping-cannon mechanic. The sweep must decide how *good* a shot
+is, never whether the level is possible, so this samples the full elevation
+range on every level and asserts completion.
+
+| Test | Result |
+| --- | --- |
+| The vertical slice completes at **every angle** in the sweep (9 samples) | pass |
+| Firing at the same angle twice gives the same result | pass |
+| A cannon starts on its authored angle | pass |
+| Sweep coverage across all shipped levels | reports gaps, does not assert |
+
+Introducing the sweep exposed a real fragility rather than causing one: the
+car→button hand-off only worked at the exact authored angle. Two fixes —
+moving the button to the *weakest* shove's reach rather than the strongest,
+and a controlled nudge that tops the shove up — took `w1_l1`, `w1_l3`, `w1_l7`
+and `w1_l8` to full coverage across their sweep.
 
 ---
 
